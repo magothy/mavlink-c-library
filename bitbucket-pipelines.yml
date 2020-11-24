@@ -1,0 +1,8 @@
+pipelines:
+  custom:
+    build-mavlink-c-library:
+      - variables:
+          - name: ConanRecipesHash
+      - step:
+          script:
+            - echo "Hash is $ConanRecipesHash"
