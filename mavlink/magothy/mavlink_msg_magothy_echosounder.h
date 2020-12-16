@@ -8,7 +8,7 @@ typedef struct __mavlink_magothy_echosounder_t {
  uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
  float water_depth_low_freq_m; /*<  Water Depth (Low Frequency) (m)*/
  float water_depth_high_freq_m; /*<  Water Depth (High Frequency) (m)*/
- float water_temperature_C; /*<  Water Temperature(C)*/
+ float water_temperature_C; /*<  Water Temperature (C)*/
 } mavlink_magothy_echosounder_t;
 
 #define MAVLINK_MSG_ID_MAGOTHY_ECHOSOUNDER_LEN 20
@@ -53,7 +53,7 @@ typedef struct __mavlink_magothy_echosounder_t {
  * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param water_depth_low_freq_m  Water Depth (Low Frequency) (m)
  * @param water_depth_high_freq_m  Water Depth (High Frequency) (m)
- * @param water_temperature_C  Water Temperature(C)
+ * @param water_temperature_C  Water Temperature (C)
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_echosounder_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -90,7 +90,7 @@ static inline uint16_t mavlink_msg_magothy_echosounder_pack(uint8_t system_id, u
  * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param water_depth_low_freq_m  Water Depth (Low Frequency) (m)
  * @param water_depth_high_freq_m  Water Depth (High Frequency) (m)
- * @param water_temperature_C  Water Temperature(C)
+ * @param water_temperature_C  Water Temperature (C)
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_echosounder_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -153,7 +153,7 @@ static inline uint16_t mavlink_msg_magothy_echosounder_encode_chan(uint8_t syste
  * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param water_depth_low_freq_m  Water Depth (Low Frequency) (m)
  * @param water_depth_high_freq_m  Water Depth (High Frequency) (m)
- * @param water_temperature_C  Water Temperature(C)
+ * @param water_temperature_C  Water Temperature (C)
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -260,7 +260,7 @@ static inline float mavlink_msg_magothy_echosounder_get_water_depth_high_freq_m(
 /**
  * @brief Get field water_temperature_C from magothy_echosounder message
  *
- * @return  Water Temperature(C)
+ * @return  Water Temperature (C)
  */
 static inline float mavlink_msg_magothy_echosounder_get_water_temperature_C(const mavlink_message_t* msg)
 {
