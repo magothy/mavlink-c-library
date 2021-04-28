@@ -6,12 +6,12 @@
 
 typedef struct __mavlink_magothy_capability_t {
  uint16_t enablement_bitmask; /*<  Additional Capability Bitmask*/
- uint16_t log_management_port; /*<  */
- uint16_t firmware_upload_port; /*<  */
- uint8_t log_management_ip_address[4]; /*<  */
- char log_management_endpoint[32]; /*<  */
- uint8_t firmware_upload_ip_address[4]; /*<  */
- char firmware_upload_endpoint[32]; /*<  */
+ uint16_t log_management_port; /*<  Port to Log WebDAV server*/
+ uint16_t firmware_upload_port; /*<  Port to Firmware Update web server*/
+ uint8_t log_management_ip_address[4]; /*<  IP Address to Log WebDAV server*/
+ char log_management_endpoint[32]; /*<  Base URL prefix to Log WebDAV server*/
+ uint8_t firmware_upload_ip_address[4]; /*<  IP Address to Firmware Update web server*/
+ char firmware_upload_endpoint[32]; /*<  Base URL prefix to Firmware Update web server*/
 } mavlink_magothy_capability_t;
 
 #define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN 78
@@ -63,12 +63,12 @@ typedef struct __mavlink_magothy_capability_t {
  * @param msg The MAVLink message to compress the data into
  *
  * @param enablement_bitmask  Additional Capability Bitmask
- * @param log_management_ip_address  
- * @param log_management_port  
- * @param log_management_endpoint  
- * @param firmware_upload_ip_address  
- * @param firmware_upload_port  
- * @param firmware_upload_endpoint  
+ * @param log_management_ip_address  IP Address to Log WebDAV server
+ * @param log_management_port  Port to Log WebDAV server
+ * @param log_management_endpoint  Base URL prefix to Log WebDAV server
+ * @param firmware_upload_ip_address  IP Address to Firmware Update web server
+ * @param firmware_upload_port  Port to Firmware Update web server
+ * @param firmware_upload_endpoint  Base URL prefix to Firmware Update web server
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_capability_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -107,12 +107,12 @@ static inline uint16_t mavlink_msg_magothy_capability_pack(uint8_t system_id, ui
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
  * @param enablement_bitmask  Additional Capability Bitmask
- * @param log_management_ip_address  
- * @param log_management_port  
- * @param log_management_endpoint  
- * @param firmware_upload_ip_address  
- * @param firmware_upload_port  
- * @param firmware_upload_endpoint  
+ * @param log_management_ip_address  IP Address to Log WebDAV server
+ * @param log_management_port  Port to Log WebDAV server
+ * @param log_management_endpoint  Base URL prefix to Log WebDAV server
+ * @param firmware_upload_ip_address  IP Address to Firmware Update web server
+ * @param firmware_upload_port  Port to Firmware Update web server
+ * @param firmware_upload_endpoint  Base URL prefix to Firmware Update web server
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_capability_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -177,12 +177,12 @@ static inline uint16_t mavlink_msg_magothy_capability_encode_chan(uint8_t system
  * @param chan MAVLink channel to send the message
  *
  * @param enablement_bitmask  Additional Capability Bitmask
- * @param log_management_ip_address  
- * @param log_management_port  
- * @param log_management_endpoint  
- * @param firmware_upload_ip_address  
- * @param firmware_upload_port  
- * @param firmware_upload_endpoint  
+ * @param log_management_ip_address  IP Address to Log WebDAV server
+ * @param log_management_port  Port to Log WebDAV server
+ * @param log_management_endpoint  Base URL prefix to Log WebDAV server
+ * @param firmware_upload_ip_address  IP Address to Firmware Update web server
+ * @param firmware_upload_port  Port to Firmware Update web server
+ * @param firmware_upload_endpoint  Base URL prefix to Firmware Update web server
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -277,7 +277,7 @@ static inline uint16_t mavlink_msg_magothy_capability_get_enablement_bitmask(con
 /**
  * @brief Get field log_management_ip_address from magothy_capability message
  *
- * @return  
+ * @return  IP Address to Log WebDAV server
  */
 static inline uint16_t mavlink_msg_magothy_capability_get_log_management_ip_address(const mavlink_message_t* msg, uint8_t *log_management_ip_address)
 {
@@ -287,7 +287,7 @@ static inline uint16_t mavlink_msg_magothy_capability_get_log_management_ip_addr
 /**
  * @brief Get field log_management_port from magothy_capability message
  *
- * @return  
+ * @return  Port to Log WebDAV server
  */
 static inline uint16_t mavlink_msg_magothy_capability_get_log_management_port(const mavlink_message_t* msg)
 {
@@ -297,7 +297,7 @@ static inline uint16_t mavlink_msg_magothy_capability_get_log_management_port(co
 /**
  * @brief Get field log_management_endpoint from magothy_capability message
  *
- * @return  
+ * @return  Base URL prefix to Log WebDAV server
  */
 static inline uint16_t mavlink_msg_magothy_capability_get_log_management_endpoint(const mavlink_message_t* msg, char *log_management_endpoint)
 {
@@ -307,7 +307,7 @@ static inline uint16_t mavlink_msg_magothy_capability_get_log_management_endpoin
 /**
  * @brief Get field firmware_upload_ip_address from magothy_capability message
  *
- * @return  
+ * @return  IP Address to Firmware Update web server
  */
 static inline uint16_t mavlink_msg_magothy_capability_get_firmware_upload_ip_address(const mavlink_message_t* msg, uint8_t *firmware_upload_ip_address)
 {
@@ -317,7 +317,7 @@ static inline uint16_t mavlink_msg_magothy_capability_get_firmware_upload_ip_add
 /**
  * @brief Get field firmware_upload_port from magothy_capability message
  *
- * @return  
+ * @return  Port to Firmware Update web server
  */
 static inline uint16_t mavlink_msg_magothy_capability_get_firmware_upload_port(const mavlink_message_t* msg)
 {
@@ -327,7 +327,7 @@ static inline uint16_t mavlink_msg_magothy_capability_get_firmware_upload_port(c
 /**
  * @brief Get field firmware_upload_endpoint from magothy_capability message
  *
- * @return  
+ * @return  Base URL prefix to Firmware Update web server
  */
 static inline uint16_t mavlink_msg_magothy_capability_get_firmware_upload_endpoint(const mavlink_message_t* msg, char *firmware_upload_endpoint)
 {
