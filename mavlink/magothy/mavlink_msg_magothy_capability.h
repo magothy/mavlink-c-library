@@ -12,26 +12,33 @@ typedef struct __mavlink_magothy_capability_t {
  char log_management_endpoint[32]; /*<  Base URL prefix to Log WebDAV server*/
  uint8_t firmware_upload_ip_address[4]; /*<  IP Address to Firmware Update web server*/
  char firmware_upload_endpoint[32]; /*<  Base URL prefix to Firmware Update web server*/
+ uint8_t firmware_sha1[20]; /*<  sha1 of meta-magothy*/
+ uint8_t firmware_sha1_dirty; /*<  sha1 is clean if 0, else dirty*/
+ char firmware_version[32]; /*<  Pretty version string*/
+ char device_type[16]; /*<  Identifier to distinguish between vehicle types*/
 } mavlink_magothy_capability_t;
 
-#define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN 78
-#define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN 78
-#define MAVLINK_MSG_ID_50100_LEN 78
-#define MAVLINK_MSG_ID_50100_MIN_LEN 78
+#define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN 147
+#define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN 147
+#define MAVLINK_MSG_ID_50100_LEN 147
+#define MAVLINK_MSG_ID_50100_MIN_LEN 147
 
-#define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC 104
-#define MAVLINK_MSG_ID_50100_CRC 104
+#define MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC 68
+#define MAVLINK_MSG_ID_50100_CRC 68
 
 #define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_LOG_MANAGEMENT_IP_ADDRESS_LEN 4
 #define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_LOG_MANAGEMENT_ENDPOINT_LEN 32
 #define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_FIRMWARE_UPLOAD_IP_ADDRESS_LEN 4
 #define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_FIRMWARE_UPLOAD_ENDPOINT_LEN 32
+#define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_FIRMWARE_SHA1_LEN 20
+#define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_FIRMWARE_VERSION_LEN 32
+#define MAVLINK_MSG_MAGOTHY_CAPABILITY_FIELD_DEVICE_TYPE_LEN 16
 
 #if MAVLINK_COMMAND_24BIT
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_CAPABILITY { \
     50100, \
     "MAGOTHY_CAPABILITY", \
-    7, \
+    11, \
     {  { "enablement_bitmask", NULL, MAVLINK_TYPE_UINT16_T, 0, 0, offsetof(mavlink_magothy_capability_t, enablement_bitmask) }, \
          { "log_management_ip_address", NULL, MAVLINK_TYPE_UINT8_T, 4, 6, offsetof(mavlink_magothy_capability_t, log_management_ip_address) }, \
          { "log_management_port", NULL, MAVLINK_TYPE_UINT16_T, 0, 2, offsetof(mavlink_magothy_capability_t, log_management_port) }, \
@@ -39,12 +46,16 @@ typedef struct __mavlink_magothy_capability_t {
          { "firmware_upload_ip_address", NULL, MAVLINK_TYPE_UINT8_T, 4, 42, offsetof(mavlink_magothy_capability_t, firmware_upload_ip_address) }, \
          { "firmware_upload_port", NULL, MAVLINK_TYPE_UINT16_T, 0, 4, offsetof(mavlink_magothy_capability_t, firmware_upload_port) }, \
          { "firmware_upload_endpoint", NULL, MAVLINK_TYPE_CHAR, 32, 46, offsetof(mavlink_magothy_capability_t, firmware_upload_endpoint) }, \
+         { "firmware_sha1", NULL, MAVLINK_TYPE_UINT8_T, 20, 78, offsetof(mavlink_magothy_capability_t, firmware_sha1) }, \
+         { "firmware_sha1_dirty", NULL, MAVLINK_TYPE_UINT8_T, 0, 98, offsetof(mavlink_magothy_capability_t, firmware_sha1_dirty) }, \
+         { "firmware_version", NULL, MAVLINK_TYPE_CHAR, 32, 99, offsetof(mavlink_magothy_capability_t, firmware_version) }, \
+         { "device_type", NULL, MAVLINK_TYPE_CHAR, 16, 131, offsetof(mavlink_magothy_capability_t, device_type) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_CAPABILITY { \
     "MAGOTHY_CAPABILITY", \
-    7, \
+    11, \
     {  { "enablement_bitmask", NULL, MAVLINK_TYPE_UINT16_T, 0, 0, offsetof(mavlink_magothy_capability_t, enablement_bitmask) }, \
          { "log_management_ip_address", NULL, MAVLINK_TYPE_UINT8_T, 4, 6, offsetof(mavlink_magothy_capability_t, log_management_ip_address) }, \
          { "log_management_port", NULL, MAVLINK_TYPE_UINT16_T, 0, 2, offsetof(mavlink_magothy_capability_t, log_management_port) }, \
@@ -52,6 +63,10 @@ typedef struct __mavlink_magothy_capability_t {
          { "firmware_upload_ip_address", NULL, MAVLINK_TYPE_UINT8_T, 4, 42, offsetof(mavlink_magothy_capability_t, firmware_upload_ip_address) }, \
          { "firmware_upload_port", NULL, MAVLINK_TYPE_UINT16_T, 0, 4, offsetof(mavlink_magothy_capability_t, firmware_upload_port) }, \
          { "firmware_upload_endpoint", NULL, MAVLINK_TYPE_CHAR, 32, 46, offsetof(mavlink_magothy_capability_t, firmware_upload_endpoint) }, \
+         { "firmware_sha1", NULL, MAVLINK_TYPE_UINT8_T, 20, 78, offsetof(mavlink_magothy_capability_t, firmware_sha1) }, \
+         { "firmware_sha1_dirty", NULL, MAVLINK_TYPE_UINT8_T, 0, 98, offsetof(mavlink_magothy_capability_t, firmware_sha1_dirty) }, \
+         { "firmware_version", NULL, MAVLINK_TYPE_CHAR, 32, 99, offsetof(mavlink_magothy_capability_t, firmware_version) }, \
+         { "device_type", NULL, MAVLINK_TYPE_CHAR, 16, 131, offsetof(mavlink_magothy_capability_t, device_type) }, \
          } \
 }
 #endif
@@ -69,30 +84,42 @@ typedef struct __mavlink_magothy_capability_t {
  * @param firmware_upload_ip_address  IP Address to Firmware Update web server
  * @param firmware_upload_port  Port to Firmware Update web server
  * @param firmware_upload_endpoint  Base URL prefix to Firmware Update web server
+ * @param firmware_sha1  sha1 of meta-magothy
+ * @param firmware_sha1_dirty  sha1 is clean if 0, else dirty
+ * @param firmware_version  Pretty version string
+ * @param device_type  Identifier to distinguish between vehicle types
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_capability_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               uint16_t enablement_bitmask, const uint8_t *log_management_ip_address, uint16_t log_management_port, const char *log_management_endpoint, const uint8_t *firmware_upload_ip_address, uint16_t firmware_upload_port, const char *firmware_upload_endpoint)
+                               uint16_t enablement_bitmask, const uint8_t *log_management_ip_address, uint16_t log_management_port, const char *log_management_endpoint, const uint8_t *firmware_upload_ip_address, uint16_t firmware_upload_port, const char *firmware_upload_endpoint, const uint8_t *firmware_sha1, uint8_t firmware_sha1_dirty, const char *firmware_version, const char *device_type)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN];
     _mav_put_uint16_t(buf, 0, enablement_bitmask);
     _mav_put_uint16_t(buf, 2, log_management_port);
     _mav_put_uint16_t(buf, 4, firmware_upload_port);
+    _mav_put_uint8_t(buf, 98, firmware_sha1_dirty);
     _mav_put_uint8_t_array(buf, 6, log_management_ip_address, 4);
     _mav_put_char_array(buf, 10, log_management_endpoint, 32);
     _mav_put_uint8_t_array(buf, 42, firmware_upload_ip_address, 4);
     _mav_put_char_array(buf, 46, firmware_upload_endpoint, 32);
+    _mav_put_uint8_t_array(buf, 78, firmware_sha1, 20);
+    _mav_put_char_array(buf, 99, firmware_version, 32);
+    _mav_put_char_array(buf, 131, device_type, 16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN);
 #else
     mavlink_magothy_capability_t packet;
     packet.enablement_bitmask = enablement_bitmask;
     packet.log_management_port = log_management_port;
     packet.firmware_upload_port = firmware_upload_port;
+    packet.firmware_sha1_dirty = firmware_sha1_dirty;
     mav_array_memcpy(packet.log_management_ip_address, log_management_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet.log_management_endpoint, log_management_endpoint, sizeof(char)*32);
     mav_array_memcpy(packet.firmware_upload_ip_address, firmware_upload_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet.firmware_upload_endpoint, firmware_upload_endpoint, sizeof(char)*32);
+    mav_array_memcpy(packet.firmware_sha1, firmware_sha1, sizeof(uint8_t)*20);
+    mav_array_memcpy(packet.firmware_version, firmware_version, sizeof(char)*32);
+    mav_array_memcpy(packet.device_type, device_type, sizeof(char)*16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN);
 #endif
 
@@ -113,31 +140,43 @@ static inline uint16_t mavlink_msg_magothy_capability_pack(uint8_t system_id, ui
  * @param firmware_upload_ip_address  IP Address to Firmware Update web server
  * @param firmware_upload_port  Port to Firmware Update web server
  * @param firmware_upload_endpoint  Base URL prefix to Firmware Update web server
+ * @param firmware_sha1  sha1 of meta-magothy
+ * @param firmware_sha1_dirty  sha1 is clean if 0, else dirty
+ * @param firmware_version  Pretty version string
+ * @param device_type  Identifier to distinguish between vehicle types
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_capability_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   uint16_t enablement_bitmask,const uint8_t *log_management_ip_address,uint16_t log_management_port,const char *log_management_endpoint,const uint8_t *firmware_upload_ip_address,uint16_t firmware_upload_port,const char *firmware_upload_endpoint)
+                                   uint16_t enablement_bitmask,const uint8_t *log_management_ip_address,uint16_t log_management_port,const char *log_management_endpoint,const uint8_t *firmware_upload_ip_address,uint16_t firmware_upload_port,const char *firmware_upload_endpoint,const uint8_t *firmware_sha1,uint8_t firmware_sha1_dirty,const char *firmware_version,const char *device_type)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN];
     _mav_put_uint16_t(buf, 0, enablement_bitmask);
     _mav_put_uint16_t(buf, 2, log_management_port);
     _mav_put_uint16_t(buf, 4, firmware_upload_port);
+    _mav_put_uint8_t(buf, 98, firmware_sha1_dirty);
     _mav_put_uint8_t_array(buf, 6, log_management_ip_address, 4);
     _mav_put_char_array(buf, 10, log_management_endpoint, 32);
     _mav_put_uint8_t_array(buf, 42, firmware_upload_ip_address, 4);
     _mav_put_char_array(buf, 46, firmware_upload_endpoint, 32);
+    _mav_put_uint8_t_array(buf, 78, firmware_sha1, 20);
+    _mav_put_char_array(buf, 99, firmware_version, 32);
+    _mav_put_char_array(buf, 131, device_type, 16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN);
 #else
     mavlink_magothy_capability_t packet;
     packet.enablement_bitmask = enablement_bitmask;
     packet.log_management_port = log_management_port;
     packet.firmware_upload_port = firmware_upload_port;
+    packet.firmware_sha1_dirty = firmware_sha1_dirty;
     mav_array_memcpy(packet.log_management_ip_address, log_management_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet.log_management_endpoint, log_management_endpoint, sizeof(char)*32);
     mav_array_memcpy(packet.firmware_upload_ip_address, firmware_upload_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet.firmware_upload_endpoint, firmware_upload_endpoint, sizeof(char)*32);
+    mav_array_memcpy(packet.firmware_sha1, firmware_sha1, sizeof(uint8_t)*20);
+    mav_array_memcpy(packet.firmware_version, firmware_version, sizeof(char)*32);
+    mav_array_memcpy(packet.device_type, device_type, sizeof(char)*16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN);
 #endif
 
@@ -155,7 +194,7 @@ static inline uint16_t mavlink_msg_magothy_capability_pack_chan(uint8_t system_i
  */
 static inline uint16_t mavlink_msg_magothy_capability_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_magothy_capability_t* magothy_capability)
 {
-    return mavlink_msg_magothy_capability_pack(system_id, component_id, msg, magothy_capability->enablement_bitmask, magothy_capability->log_management_ip_address, magothy_capability->log_management_port, magothy_capability->log_management_endpoint, magothy_capability->firmware_upload_ip_address, magothy_capability->firmware_upload_port, magothy_capability->firmware_upload_endpoint);
+    return mavlink_msg_magothy_capability_pack(system_id, component_id, msg, magothy_capability->enablement_bitmask, magothy_capability->log_management_ip_address, magothy_capability->log_management_port, magothy_capability->log_management_endpoint, magothy_capability->firmware_upload_ip_address, magothy_capability->firmware_upload_port, magothy_capability->firmware_upload_endpoint, magothy_capability->firmware_sha1, magothy_capability->firmware_sha1_dirty, magothy_capability->firmware_version, magothy_capability->device_type);
 }
 
 /**
@@ -169,7 +208,7 @@ static inline uint16_t mavlink_msg_magothy_capability_encode(uint8_t system_id, 
  */
 static inline uint16_t mavlink_msg_magothy_capability_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_magothy_capability_t* magothy_capability)
 {
-    return mavlink_msg_magothy_capability_pack_chan(system_id, component_id, chan, msg, magothy_capability->enablement_bitmask, magothy_capability->log_management_ip_address, magothy_capability->log_management_port, magothy_capability->log_management_endpoint, magothy_capability->firmware_upload_ip_address, magothy_capability->firmware_upload_port, magothy_capability->firmware_upload_endpoint);
+    return mavlink_msg_magothy_capability_pack_chan(system_id, component_id, chan, msg, magothy_capability->enablement_bitmask, magothy_capability->log_management_ip_address, magothy_capability->log_management_port, magothy_capability->log_management_endpoint, magothy_capability->firmware_upload_ip_address, magothy_capability->firmware_upload_port, magothy_capability->firmware_upload_endpoint, magothy_capability->firmware_sha1, magothy_capability->firmware_sha1_dirty, magothy_capability->firmware_version, magothy_capability->device_type);
 }
 
 /**
@@ -183,30 +222,42 @@ static inline uint16_t mavlink_msg_magothy_capability_encode_chan(uint8_t system
  * @param firmware_upload_ip_address  IP Address to Firmware Update web server
  * @param firmware_upload_port  Port to Firmware Update web server
  * @param firmware_upload_endpoint  Base URL prefix to Firmware Update web server
+ * @param firmware_sha1  sha1 of meta-magothy
+ * @param firmware_sha1_dirty  sha1 is clean if 0, else dirty
+ * @param firmware_version  Pretty version string
+ * @param device_type  Identifier to distinguish between vehicle types
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_magothy_capability_send(mavlink_channel_t chan, uint16_t enablement_bitmask, const uint8_t *log_management_ip_address, uint16_t log_management_port, const char *log_management_endpoint, const uint8_t *firmware_upload_ip_address, uint16_t firmware_upload_port, const char *firmware_upload_endpoint)
+static inline void mavlink_msg_magothy_capability_send(mavlink_channel_t chan, uint16_t enablement_bitmask, const uint8_t *log_management_ip_address, uint16_t log_management_port, const char *log_management_endpoint, const uint8_t *firmware_upload_ip_address, uint16_t firmware_upload_port, const char *firmware_upload_endpoint, const uint8_t *firmware_sha1, uint8_t firmware_sha1_dirty, const char *firmware_version, const char *device_type)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN];
     _mav_put_uint16_t(buf, 0, enablement_bitmask);
     _mav_put_uint16_t(buf, 2, log_management_port);
     _mav_put_uint16_t(buf, 4, firmware_upload_port);
+    _mav_put_uint8_t(buf, 98, firmware_sha1_dirty);
     _mav_put_uint8_t_array(buf, 6, log_management_ip_address, 4);
     _mav_put_char_array(buf, 10, log_management_endpoint, 32);
     _mav_put_uint8_t_array(buf, 42, firmware_upload_ip_address, 4);
     _mav_put_char_array(buf, 46, firmware_upload_endpoint, 32);
+    _mav_put_uint8_t_array(buf, 78, firmware_sha1, 20);
+    _mav_put_char_array(buf, 99, firmware_version, 32);
+    _mav_put_char_array(buf, 131, device_type, 16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY, buf, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC);
 #else
     mavlink_magothy_capability_t packet;
     packet.enablement_bitmask = enablement_bitmask;
     packet.log_management_port = log_management_port;
     packet.firmware_upload_port = firmware_upload_port;
+    packet.firmware_sha1_dirty = firmware_sha1_dirty;
     mav_array_memcpy(packet.log_management_ip_address, log_management_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet.log_management_endpoint, log_management_endpoint, sizeof(char)*32);
     mav_array_memcpy(packet.firmware_upload_ip_address, firmware_upload_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet.firmware_upload_endpoint, firmware_upload_endpoint, sizeof(char)*32);
+    mav_array_memcpy(packet.firmware_sha1, firmware_sha1, sizeof(uint8_t)*20);
+    mav_array_memcpy(packet.firmware_version, firmware_version, sizeof(char)*32);
+    mav_array_memcpy(packet.device_type, device_type, sizeof(char)*16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY, (const char *)&packet, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC);
 #endif
 }
@@ -219,7 +270,7 @@ static inline void mavlink_msg_magothy_capability_send(mavlink_channel_t chan, u
 static inline void mavlink_msg_magothy_capability_send_struct(mavlink_channel_t chan, const mavlink_magothy_capability_t* magothy_capability)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_magothy_capability_send(chan, magothy_capability->enablement_bitmask, magothy_capability->log_management_ip_address, magothy_capability->log_management_port, magothy_capability->log_management_endpoint, magothy_capability->firmware_upload_ip_address, magothy_capability->firmware_upload_port, magothy_capability->firmware_upload_endpoint);
+    mavlink_msg_magothy_capability_send(chan, magothy_capability->enablement_bitmask, magothy_capability->log_management_ip_address, magothy_capability->log_management_port, magothy_capability->log_management_endpoint, magothy_capability->firmware_upload_ip_address, magothy_capability->firmware_upload_port, magothy_capability->firmware_upload_endpoint, magothy_capability->firmware_sha1, magothy_capability->firmware_sha1_dirty, magothy_capability->firmware_version, magothy_capability->device_type);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY, (const char *)magothy_capability, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC);
 #endif
@@ -233,27 +284,35 @@ static inline void mavlink_msg_magothy_capability_send_struct(mavlink_channel_t 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_magothy_capability_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint16_t enablement_bitmask, const uint8_t *log_management_ip_address, uint16_t log_management_port, const char *log_management_endpoint, const uint8_t *firmware_upload_ip_address, uint16_t firmware_upload_port, const char *firmware_upload_endpoint)
+static inline void mavlink_msg_magothy_capability_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint16_t enablement_bitmask, const uint8_t *log_management_ip_address, uint16_t log_management_port, const char *log_management_endpoint, const uint8_t *firmware_upload_ip_address, uint16_t firmware_upload_port, const char *firmware_upload_endpoint, const uint8_t *firmware_sha1, uint8_t firmware_sha1_dirty, const char *firmware_version, const char *device_type)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
     _mav_put_uint16_t(buf, 0, enablement_bitmask);
     _mav_put_uint16_t(buf, 2, log_management_port);
     _mav_put_uint16_t(buf, 4, firmware_upload_port);
+    _mav_put_uint8_t(buf, 98, firmware_sha1_dirty);
     _mav_put_uint8_t_array(buf, 6, log_management_ip_address, 4);
     _mav_put_char_array(buf, 10, log_management_endpoint, 32);
     _mav_put_uint8_t_array(buf, 42, firmware_upload_ip_address, 4);
     _mav_put_char_array(buf, 46, firmware_upload_endpoint, 32);
+    _mav_put_uint8_t_array(buf, 78, firmware_sha1, 20);
+    _mav_put_char_array(buf, 99, firmware_version, 32);
+    _mav_put_char_array(buf, 131, device_type, 16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY, buf, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC);
 #else
     mavlink_magothy_capability_t *packet = (mavlink_magothy_capability_t *)msgbuf;
     packet->enablement_bitmask = enablement_bitmask;
     packet->log_management_port = log_management_port;
     packet->firmware_upload_port = firmware_upload_port;
+    packet->firmware_sha1_dirty = firmware_sha1_dirty;
     mav_array_memcpy(packet->log_management_ip_address, log_management_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet->log_management_endpoint, log_management_endpoint, sizeof(char)*32);
     mav_array_memcpy(packet->firmware_upload_ip_address, firmware_upload_ip_address, sizeof(uint8_t)*4);
     mav_array_memcpy(packet->firmware_upload_endpoint, firmware_upload_endpoint, sizeof(char)*32);
+    mav_array_memcpy(packet->firmware_sha1, firmware_sha1, sizeof(uint8_t)*20);
+    mav_array_memcpy(packet->firmware_version, firmware_version, sizeof(char)*32);
+    mav_array_memcpy(packet->device_type, device_type, sizeof(char)*16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY, (const char *)packet, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_CRC);
 #endif
 }
@@ -335,6 +394,46 @@ static inline uint16_t mavlink_msg_magothy_capability_get_firmware_upload_endpoi
 }
 
 /**
+ * @brief Get field firmware_sha1 from magothy_capability message
+ *
+ * @return  sha1 of meta-magothy
+ */
+static inline uint16_t mavlink_msg_magothy_capability_get_firmware_sha1(const mavlink_message_t* msg, uint8_t *firmware_sha1)
+{
+    return _MAV_RETURN_uint8_t_array(msg, firmware_sha1, 20,  78);
+}
+
+/**
+ * @brief Get field firmware_sha1_dirty from magothy_capability message
+ *
+ * @return  sha1 is clean if 0, else dirty
+ */
+static inline uint8_t mavlink_msg_magothy_capability_get_firmware_sha1_dirty(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_uint8_t(msg,  98);
+}
+
+/**
+ * @brief Get field firmware_version from magothy_capability message
+ *
+ * @return  Pretty version string
+ */
+static inline uint16_t mavlink_msg_magothy_capability_get_firmware_version(const mavlink_message_t* msg, char *firmware_version)
+{
+    return _MAV_RETURN_char_array(msg, firmware_version, 32,  99);
+}
+
+/**
+ * @brief Get field device_type from magothy_capability message
+ *
+ * @return  Identifier to distinguish between vehicle types
+ */
+static inline uint16_t mavlink_msg_magothy_capability_get_device_type(const mavlink_message_t* msg, char *device_type)
+{
+    return _MAV_RETURN_char_array(msg, device_type, 16,  131);
+}
+
+/**
  * @brief Decode a magothy_capability message into a struct
  *
  * @param msg The message to decode
@@ -350,6 +449,10 @@ static inline void mavlink_msg_magothy_capability_decode(const mavlink_message_t
     mavlink_msg_magothy_capability_get_log_management_endpoint(msg, magothy_capability->log_management_endpoint);
     mavlink_msg_magothy_capability_get_firmware_upload_ip_address(msg, magothy_capability->firmware_upload_ip_address);
     mavlink_msg_magothy_capability_get_firmware_upload_endpoint(msg, magothy_capability->firmware_upload_endpoint);
+    mavlink_msg_magothy_capability_get_firmware_sha1(msg, magothy_capability->firmware_sha1);
+    magothy_capability->firmware_sha1_dirty = mavlink_msg_magothy_capability_get_firmware_sha1_dirty(msg);
+    mavlink_msg_magothy_capability_get_firmware_version(msg, magothy_capability->firmware_version);
+    mavlink_msg_magothy_capability_get_device_type(msg, magothy_capability->device_type);
 #else
         uint8_t len = msg->len < MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN? msg->len : MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN;
         memset(magothy_capability, 0, MAVLINK_MSG_ID_MAGOTHY_CAPABILITY_LEN);
