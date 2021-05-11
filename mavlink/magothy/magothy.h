@@ -41,7 +41,9 @@ typedef enum MAGOTHY_CAPABILITY
 {
    MAGOTHY_CAPABILITY_LOG_MANAGEMENT=1, /* Set if log management is enabled | */
    MAGOTHY_CAPABILITY_FIRMWARE_UPDATE=2, /* Set if firmware update is enabled | */
-   MAGOTHY_CAPABILITY_ENUM_END=3, /*  | */
+   MAGOTHY_CAPABILITY_GYRO_CAL=4, /* Set if gyro calibration is enabled | */
+   MAGOTHY_CAPABILITY_MAG_CAL=8, /* Set if magnetometer calibration is enabled | */
+   MAGOTHY_CAPABILITY_ENUM_END=9, /*  | */
 } MAGOTHY_CAPABILITY;
 #endif
 
@@ -216,7 +218,9 @@ typedef enum MAV_CMD
    MAV_CMD_DO_WINCH=42600, /* Command to operate winch. |Winch instance number.| Action to perform.| Length of cable to release (negative to wind).| Release rate (negative to wind).| Empty.| Empty.| Empty.|  */
    MAV_CMD_DO_REBOOT=50200, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
    MAV_CMD_DO_START_FIRMWARE_UPDATE=50201, /*  |UUID bytes 0-3 encoded in little-endian| UUID bytes 4-7 encoded in little-endian| UUID bytes 8-11 encoded in little-endian| UUID bytes 12-15 encoded in little-endian| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
-   MAV_CMD_ENUM_END=50202, /*  | */
+   MAV_CMD_DO_START_GYRO_CAL=50202, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
+   MAV_CMD_DO_START_MAG_CAL=50203, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
+   MAV_CMD_ENUM_END=50204, /*  | */
 } MAV_CMD;
 #endif
 
