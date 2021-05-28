@@ -47,6 +47,22 @@ typedef enum MAGOTHY_CAPABILITY
 } MAGOTHY_CAPABILITY;
 #endif
 
+/** @brief  */
+#ifndef HAVE_ENUM_MAGOTHY_FAULT_RESPONSE
+#define HAVE_ENUM_MAGOTHY_FAULT_RESPONSE
+typedef enum MAGOTHY_FAULT_RESPONSE
+{
+   MAGOTHY_FAULT_RESPONSE_IGNORE=0, /* Disable Fault | */
+   MAGOTHY_FAULT_RESPONSE_DRIFT=1, /* Drift after fault | */
+   MAGOTHY_FAULT_RESPONSE_LOITER=2, /* Loiter at the current position | */
+   MAGOTHY_FAULT_RESPONSE_RETURN_POINT=3, /* Travel to the set return point | */
+   MAGOTHY_FAULT_RESPONSE_FIRST=4, /* Travel to the mission's first waypoint | */
+   MAGOTHY_FAULT_RESPONSE_FINAL=5, /* Travel to the mission's final waypoint | */
+   MAGOTHY_FAULT_RESPONSE_LAUNCH=6, /* Travel to the mission's launch point | */
+   MAGOTHY_FAULT_RESPONSE_ENUM_END=7, /*  | */
+} MAGOTHY_FAULT_RESPONSE;
+#endif
+
 /** @brief Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. NaN and INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current yaw or latitude rather than a specific value). See https://mavlink.io/en/guide/xml_schema.html#MAV_CMD for information about the structure of the MAV_CMD entries */
 #ifndef HAVE_ENUM_MAV_CMD
 #define HAVE_ENUM_MAV_CMD
@@ -220,7 +236,9 @@ typedef enum MAV_CMD
    MAV_CMD_DO_START_FIRMWARE_UPDATE=50201, /*  |UUID bytes 0-3 encoded in little-endian| UUID bytes 4-7 encoded in little-endian| UUID bytes 8-11 encoded in little-endian| UUID bytes 12-15 encoded in little-endian| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
    MAV_CMD_DO_START_GYRO_CAL=50202, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
    MAV_CMD_DO_START_MAG_CAL=50203, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
-   MAV_CMD_ENUM_END=50204, /*  | */
+   MAV_CMD_DO_SET_FAULT_RESPONSE=50204, /* Set the fault response for the given fault |Id of the fault to change| Id of the response type for this fault| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
+   MAV_CMD_DO_SET_FAULT_RESPONSE_PARAMS=50205, /* Set the fault response parameters for the mission |Radius to loiter at the response point| Duration to loiter at the response point| Speed to travel to the response point| Empty| Latitude of ROI location| Longitude of ROI location| Empty|  */
+   MAV_CMD_ENUM_END=50206, /*  | */
 } MAV_CMD;
 #endif
 
