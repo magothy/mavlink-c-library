@@ -237,7 +237,7 @@ typedef enum MAV_CMD
    MAV_CMD_DO_START_GYRO_CAL=50202, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
    MAV_CMD_DO_START_MAG_CAL=50203, /*  |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
    MAV_CMD_DO_SET_FAULT_RESPONSE=50204, /* Set the fault response for the given fault |Id of the fault to change| Id of the response type for this fault| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
-   MAV_CMD_DO_SET_FAULT_RESPONSE_PARAMS=50205, /* Set the fault response parameters for the mission |Radius to loiter at the response point| Duration to loiter at the response point| Speed to travel to the response point| Empty| Latitude of ROI location| Longitude of ROI location| Empty|  */
+   MAV_CMD_DO_SET_FAULT_RESPONSE_PARAMS=50205, /* Set the fault response parameters for the mission |Radius to loiter at the response point| Duration to loiter at the response point| Speed to travel to the response point| Empty| Empty| Empty| Empty|  */
    MAV_CMD_ENUM_END=50206, /*  | */
 } MAV_CMD;
 #endif
