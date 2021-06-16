@@ -13,23 +13,24 @@ typedef struct __mavlink_magothy_mission_telemetry_t {
  float mission_time_remaining_s; /*< [s] Remaining time of entire mission (s) - NaN if not in mission*/
  float distance_to_target_m; /*< [m] Distance to target (waypoint/loiter/etc) (m) - NaN if not in mission or not geo based*/
  float cross_track_error_m; /*< [m] Trackline offtrack error (m) - NaN if not in mission or not in trackline*/
+ char gcs_set_mode_uuid[16]; /*<  UUID of most recent mode change*/
 } mavlink_magothy_mission_telemetry_t;
 
-#define MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN 36
-#define MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN 36
-#define MAVLINK_MSG_ID_50002_LEN 36
-#define MAVLINK_MSG_ID_50002_MIN_LEN 36
+#define MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN 52
+#define MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN 52
+#define MAVLINK_MSG_ID_50002_LEN 52
+#define MAVLINK_MSG_ID_50002_MIN_LEN 52
 
-#define MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC 200
-#define MAVLINK_MSG_ID_50002_CRC 200
+#define MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC 189
+#define MAVLINK_MSG_ID_50002_CRC 189
 
-
+#define MAVLINK_MSG_MAGOTHY_MISSION_TELEMETRY_FIELD_GCS_SET_MODE_UUID_LEN 16
 
 #if MAVLINK_COMMAND_24BIT
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_MISSION_TELEMETRY { \
     50002, \
     "MAGOTHY_MISSION_TELEMETRY", \
-    8, \
+    9, \
     {  { "unix_time_usec", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_magothy_mission_telemetry_t, unix_time_usec) }, \
          { "uptime_msec", NULL, MAVLINK_TYPE_UINT32_T, 0, 8, offsetof(mavlink_magothy_mission_telemetry_t, uptime_msec) }, \
          { "mission_item_time_elapsed_s", NULL, MAVLINK_TYPE_FLOAT, 0, 12, offsetof(mavlink_magothy_mission_telemetry_t, mission_item_time_elapsed_s) }, \
@@ -38,12 +39,13 @@ typedef struct __mavlink_magothy_mission_telemetry_t {
          { "mission_time_remaining_s", NULL, MAVLINK_TYPE_FLOAT, 0, 24, offsetof(mavlink_magothy_mission_telemetry_t, mission_time_remaining_s) }, \
          { "distance_to_target_m", NULL, MAVLINK_TYPE_FLOAT, 0, 28, offsetof(mavlink_magothy_mission_telemetry_t, distance_to_target_m) }, \
          { "cross_track_error_m", NULL, MAVLINK_TYPE_FLOAT, 0, 32, offsetof(mavlink_magothy_mission_telemetry_t, cross_track_error_m) }, \
+         { "gcs_set_mode_uuid", NULL, MAVLINK_TYPE_CHAR, 16, 36, offsetof(mavlink_magothy_mission_telemetry_t, gcs_set_mode_uuid) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_MISSION_TELEMETRY { \
     "MAGOTHY_MISSION_TELEMETRY", \
-    8, \
+    9, \
     {  { "unix_time_usec", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_magothy_mission_telemetry_t, unix_time_usec) }, \
          { "uptime_msec", NULL, MAVLINK_TYPE_UINT32_T, 0, 8, offsetof(mavlink_magothy_mission_telemetry_t, uptime_msec) }, \
          { "mission_item_time_elapsed_s", NULL, MAVLINK_TYPE_FLOAT, 0, 12, offsetof(mavlink_magothy_mission_telemetry_t, mission_item_time_elapsed_s) }, \
@@ -52,6 +54,7 @@ typedef struct __mavlink_magothy_mission_telemetry_t {
          { "mission_time_remaining_s", NULL, MAVLINK_TYPE_FLOAT, 0, 24, offsetof(mavlink_magothy_mission_telemetry_t, mission_time_remaining_s) }, \
          { "distance_to_target_m", NULL, MAVLINK_TYPE_FLOAT, 0, 28, offsetof(mavlink_magothy_mission_telemetry_t, distance_to_target_m) }, \
          { "cross_track_error_m", NULL, MAVLINK_TYPE_FLOAT, 0, 32, offsetof(mavlink_magothy_mission_telemetry_t, cross_track_error_m) }, \
+         { "gcs_set_mode_uuid", NULL, MAVLINK_TYPE_CHAR, 16, 36, offsetof(mavlink_magothy_mission_telemetry_t, gcs_set_mode_uuid) }, \
          } \
 }
 #endif
@@ -70,10 +73,11 @@ typedef struct __mavlink_magothy_mission_telemetry_t {
  * @param mission_time_remaining_s [s] Remaining time of entire mission (s) - NaN if not in mission
  * @param distance_to_target_m [m] Distance to target (waypoint/loiter/etc) (m) - NaN if not in mission or not geo based
  * @param cross_track_error_m [m] Trackline offtrack error (m) - NaN if not in mission or not in trackline
+ * @param gcs_set_mode_uuid  UUID of most recent mode change
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               uint64_t unix_time_usec, uint32_t uptime_msec, float mission_item_time_elapsed_s, float mission_item_time_remaining_s, float mission_time_elapsed_s, float mission_time_remaining_s, float distance_to_target_m, float cross_track_error_m)
+                               uint64_t unix_time_usec, uint32_t uptime_msec, float mission_item_time_elapsed_s, float mission_item_time_remaining_s, float mission_time_elapsed_s, float mission_time_remaining_s, float distance_to_target_m, float cross_track_error_m, const char *gcs_set_mode_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN];
@@ -85,7 +89,7 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack(uint8_t system
     _mav_put_float(buf, 24, mission_time_remaining_s);
     _mav_put_float(buf, 28, distance_to_target_m);
     _mav_put_float(buf, 32, cross_track_error_m);
-
+    _mav_put_char_array(buf, 36, gcs_set_mode_uuid, 16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN);
 #else
     mavlink_magothy_mission_telemetry_t packet;
@@ -97,7 +101,7 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack(uint8_t system
     packet.mission_time_remaining_s = mission_time_remaining_s;
     packet.distance_to_target_m = distance_to_target_m;
     packet.cross_track_error_m = cross_track_error_m;
-
+    mav_array_memcpy(packet.gcs_set_mode_uuid, gcs_set_mode_uuid, sizeof(char)*16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN);
 #endif
 
@@ -119,11 +123,12 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack(uint8_t system
  * @param mission_time_remaining_s [s] Remaining time of entire mission (s) - NaN if not in mission
  * @param distance_to_target_m [m] Distance to target (waypoint/loiter/etc) (m) - NaN if not in mission or not geo based
  * @param cross_track_error_m [m] Trackline offtrack error (m) - NaN if not in mission or not in trackline
+ * @param gcs_set_mode_uuid  UUID of most recent mode change
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   uint64_t unix_time_usec,uint32_t uptime_msec,float mission_item_time_elapsed_s,float mission_item_time_remaining_s,float mission_time_elapsed_s,float mission_time_remaining_s,float distance_to_target_m,float cross_track_error_m)
+                                   uint64_t unix_time_usec,uint32_t uptime_msec,float mission_item_time_elapsed_s,float mission_item_time_remaining_s,float mission_time_elapsed_s,float mission_time_remaining_s,float distance_to_target_m,float cross_track_error_m,const char *gcs_set_mode_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN];
@@ -135,7 +140,7 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack_chan(uint8_t s
     _mav_put_float(buf, 24, mission_time_remaining_s);
     _mav_put_float(buf, 28, distance_to_target_m);
     _mav_put_float(buf, 32, cross_track_error_m);
-
+    _mav_put_char_array(buf, 36, gcs_set_mode_uuid, 16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN);
 #else
     mavlink_magothy_mission_telemetry_t packet;
@@ -147,7 +152,7 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack_chan(uint8_t s
     packet.mission_time_remaining_s = mission_time_remaining_s;
     packet.distance_to_target_m = distance_to_target_m;
     packet.cross_track_error_m = cross_track_error_m;
-
+    mav_array_memcpy(packet.gcs_set_mode_uuid, gcs_set_mode_uuid, sizeof(char)*16);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN);
 #endif
 
@@ -165,7 +170,7 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_pack_chan(uint8_t s
  */
 static inline uint16_t mavlink_msg_magothy_mission_telemetry_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_magothy_mission_telemetry_t* magothy_mission_telemetry)
 {
-    return mavlink_msg_magothy_mission_telemetry_pack(system_id, component_id, msg, magothy_mission_telemetry->unix_time_usec, magothy_mission_telemetry->uptime_msec, magothy_mission_telemetry->mission_item_time_elapsed_s, magothy_mission_telemetry->mission_item_time_remaining_s, magothy_mission_telemetry->mission_time_elapsed_s, magothy_mission_telemetry->mission_time_remaining_s, magothy_mission_telemetry->distance_to_target_m, magothy_mission_telemetry->cross_track_error_m);
+    return mavlink_msg_magothy_mission_telemetry_pack(system_id, component_id, msg, magothy_mission_telemetry->unix_time_usec, magothy_mission_telemetry->uptime_msec, magothy_mission_telemetry->mission_item_time_elapsed_s, magothy_mission_telemetry->mission_item_time_remaining_s, magothy_mission_telemetry->mission_time_elapsed_s, magothy_mission_telemetry->mission_time_remaining_s, magothy_mission_telemetry->distance_to_target_m, magothy_mission_telemetry->cross_track_error_m, magothy_mission_telemetry->gcs_set_mode_uuid);
 }
 
 /**
@@ -179,7 +184,7 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_encode(uint8_t syst
  */
 static inline uint16_t mavlink_msg_magothy_mission_telemetry_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_magothy_mission_telemetry_t* magothy_mission_telemetry)
 {
-    return mavlink_msg_magothy_mission_telemetry_pack_chan(system_id, component_id, chan, msg, magothy_mission_telemetry->unix_time_usec, magothy_mission_telemetry->uptime_msec, magothy_mission_telemetry->mission_item_time_elapsed_s, magothy_mission_telemetry->mission_item_time_remaining_s, magothy_mission_telemetry->mission_time_elapsed_s, magothy_mission_telemetry->mission_time_remaining_s, magothy_mission_telemetry->distance_to_target_m, magothy_mission_telemetry->cross_track_error_m);
+    return mavlink_msg_magothy_mission_telemetry_pack_chan(system_id, component_id, chan, msg, magothy_mission_telemetry->unix_time_usec, magothy_mission_telemetry->uptime_msec, magothy_mission_telemetry->mission_item_time_elapsed_s, magothy_mission_telemetry->mission_item_time_remaining_s, magothy_mission_telemetry->mission_time_elapsed_s, magothy_mission_telemetry->mission_time_remaining_s, magothy_mission_telemetry->distance_to_target_m, magothy_mission_telemetry->cross_track_error_m, magothy_mission_telemetry->gcs_set_mode_uuid);
 }
 
 /**
@@ -194,10 +199,11 @@ static inline uint16_t mavlink_msg_magothy_mission_telemetry_encode_chan(uint8_t
  * @param mission_time_remaining_s [s] Remaining time of entire mission (s) - NaN if not in mission
  * @param distance_to_target_m [m] Distance to target (waypoint/loiter/etc) (m) - NaN if not in mission or not geo based
  * @param cross_track_error_m [m] Trackline offtrack error (m) - NaN if not in mission or not in trackline
+ * @param gcs_set_mode_uuid  UUID of most recent mode change
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_magothy_mission_telemetry_send(mavlink_channel_t chan, uint64_t unix_time_usec, uint32_t uptime_msec, float mission_item_time_elapsed_s, float mission_item_time_remaining_s, float mission_time_elapsed_s, float mission_time_remaining_s, float distance_to_target_m, float cross_track_error_m)
+static inline void mavlink_msg_magothy_mission_telemetry_send(mavlink_channel_t chan, uint64_t unix_time_usec, uint32_t uptime_msec, float mission_item_time_elapsed_s, float mission_item_time_remaining_s, float mission_time_elapsed_s, float mission_time_remaining_s, float distance_to_target_m, float cross_track_error_m, const char *gcs_set_mode_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN];
@@ -209,7 +215,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_send(mavlink_channel_t 
     _mav_put_float(buf, 24, mission_time_remaining_s);
     _mav_put_float(buf, 28, distance_to_target_m);
     _mav_put_float(buf, 32, cross_track_error_m);
-
+    _mav_put_char_array(buf, 36, gcs_set_mode_uuid, 16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY, buf, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC);
 #else
     mavlink_magothy_mission_telemetry_t packet;
@@ -221,7 +227,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_send(mavlink_channel_t 
     packet.mission_time_remaining_s = mission_time_remaining_s;
     packet.distance_to_target_m = distance_to_target_m;
     packet.cross_track_error_m = cross_track_error_m;
-
+    mav_array_memcpy(packet.gcs_set_mode_uuid, gcs_set_mode_uuid, sizeof(char)*16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY, (const char *)&packet, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC);
 #endif
 }
@@ -234,7 +240,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_send(mavlink_channel_t 
 static inline void mavlink_msg_magothy_mission_telemetry_send_struct(mavlink_channel_t chan, const mavlink_magothy_mission_telemetry_t* magothy_mission_telemetry)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_magothy_mission_telemetry_send(chan, magothy_mission_telemetry->unix_time_usec, magothy_mission_telemetry->uptime_msec, magothy_mission_telemetry->mission_item_time_elapsed_s, magothy_mission_telemetry->mission_item_time_remaining_s, magothy_mission_telemetry->mission_time_elapsed_s, magothy_mission_telemetry->mission_time_remaining_s, magothy_mission_telemetry->distance_to_target_m, magothy_mission_telemetry->cross_track_error_m);
+    mavlink_msg_magothy_mission_telemetry_send(chan, magothy_mission_telemetry->unix_time_usec, magothy_mission_telemetry->uptime_msec, magothy_mission_telemetry->mission_item_time_elapsed_s, magothy_mission_telemetry->mission_item_time_remaining_s, magothy_mission_telemetry->mission_time_elapsed_s, magothy_mission_telemetry->mission_time_remaining_s, magothy_mission_telemetry->distance_to_target_m, magothy_mission_telemetry->cross_track_error_m, magothy_mission_telemetry->gcs_set_mode_uuid);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY, (const char *)magothy_mission_telemetry, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC);
 #endif
@@ -248,7 +254,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_send_struct(mavlink_cha
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_magothy_mission_telemetry_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t unix_time_usec, uint32_t uptime_msec, float mission_item_time_elapsed_s, float mission_item_time_remaining_s, float mission_time_elapsed_s, float mission_time_remaining_s, float distance_to_target_m, float cross_track_error_m)
+static inline void mavlink_msg_magothy_mission_telemetry_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t unix_time_usec, uint32_t uptime_msec, float mission_item_time_elapsed_s, float mission_item_time_remaining_s, float mission_time_elapsed_s, float mission_time_remaining_s, float distance_to_target_m, float cross_track_error_m, const char *gcs_set_mode_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
@@ -260,7 +266,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_send_buf(mavlink_messag
     _mav_put_float(buf, 24, mission_time_remaining_s);
     _mav_put_float(buf, 28, distance_to_target_m);
     _mav_put_float(buf, 32, cross_track_error_m);
-
+    _mav_put_char_array(buf, 36, gcs_set_mode_uuid, 16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY, buf, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC);
 #else
     mavlink_magothy_mission_telemetry_t *packet = (mavlink_magothy_mission_telemetry_t *)msgbuf;
@@ -272,7 +278,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_send_buf(mavlink_messag
     packet->mission_time_remaining_s = mission_time_remaining_s;
     packet->distance_to_target_m = distance_to_target_m;
     packet->cross_track_error_m = cross_track_error_m;
-
+    mav_array_memcpy(packet->gcs_set_mode_uuid, gcs_set_mode_uuid, sizeof(char)*16);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY, (const char *)packet, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_CRC);
 #endif
 }
@@ -364,6 +370,16 @@ static inline float mavlink_msg_magothy_mission_telemetry_get_cross_track_error_
 }
 
 /**
+ * @brief Get field gcs_set_mode_uuid from magothy_mission_telemetry message
+ *
+ * @return  UUID of most recent mode change
+ */
+static inline uint16_t mavlink_msg_magothy_mission_telemetry_get_gcs_set_mode_uuid(const mavlink_message_t* msg, char *gcs_set_mode_uuid)
+{
+    return _MAV_RETURN_char_array(msg, gcs_set_mode_uuid, 16,  36);
+}
+
+/**
  * @brief Decode a magothy_mission_telemetry message into a struct
  *
  * @param msg The message to decode
@@ -380,6 +396,7 @@ static inline void mavlink_msg_magothy_mission_telemetry_decode(const mavlink_me
     magothy_mission_telemetry->mission_time_remaining_s = mavlink_msg_magothy_mission_telemetry_get_mission_time_remaining_s(msg);
     magothy_mission_telemetry->distance_to_target_m = mavlink_msg_magothy_mission_telemetry_get_distance_to_target_m(msg);
     magothy_mission_telemetry->cross_track_error_m = mavlink_msg_magothy_mission_telemetry_get_cross_track_error_m(msg);
+    mavlink_msg_magothy_mission_telemetry_get_gcs_set_mode_uuid(msg, magothy_mission_telemetry->gcs_set_mode_uuid);
 #else
         uint8_t len = msg->len < MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN? msg->len : MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN;
         memset(magothy_mission_telemetry, 0, MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY_LEN);

@@ -94,7 +94,7 @@ static void mavlink_test_magothy_mission_telemetry(uint8_t system_id, uint8_t co
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_magothy_mission_telemetry_t packet_in = {
-        93372036854775807ULL,963497880,101.0,129.0,157.0,185.0,213.0,241.0
+        93372036854775807ULL,963497880,101.0,129.0,157.0,185.0,213.0,241.0,"KLMNOPQRSTUVWXY"
     };
     mavlink_magothy_mission_telemetry_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
@@ -107,6 +107,7 @@ static void mavlink_test_magothy_mission_telemetry(uint8_t system_id, uint8_t co
         packet1.distance_to_target_m = packet_in.distance_to_target_m;
         packet1.cross_track_error_m = packet_in.cross_track_error_m;
         
+        mav_array_memcpy(packet1.gcs_set_mode_uuid, packet_in.gcs_set_mode_uuid, sizeof(char)*16);
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
@@ -120,12 +121,12 @@ static void mavlink_test_magothy_mission_telemetry(uint8_t system_id, uint8_t co
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_mission_telemetry_pack(system_id, component_id, &msg , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m );
+    mavlink_msg_magothy_mission_telemetry_pack(system_id, component_id, &msg , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m , packet1.gcs_set_mode_uuid );
     mavlink_msg_magothy_mission_telemetry_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_mission_telemetry_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m );
+    mavlink_msg_magothy_mission_telemetry_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m , packet1.gcs_set_mode_uuid );
     mavlink_msg_magothy_mission_telemetry_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -138,7 +139,7 @@ static void mavlink_test_magothy_mission_telemetry(uint8_t system_id, uint8_t co
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_mission_telemetry_send(MAVLINK_COMM_1 , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m );
+    mavlink_msg_magothy_mission_telemetry_send(MAVLINK_COMM_1 , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m , packet1.gcs_set_mode_uuid );
     mavlink_msg_magothy_mission_telemetry_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
