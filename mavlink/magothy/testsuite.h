@@ -265,12 +265,74 @@ static void mavlink_test_magothy_capability(uint8_t system_id, uint8_t component
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
 
+static void mavlink_test_magothy_3d_mag_cal_params(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_MAGOTHY_3D_MAG_CAL_PARAMS >= 256) {
+            return;
+        }
+#endif
+    mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+    mavlink_magothy_3d_mag_cal_params_t packet_in = {
+        { 17.0, 18.0, 19.0 },{ 101.0, 102.0, 103.0, 104.0, 105.0, 106.0, 107.0, 108.0, 109.0 },353.0,381.0,409.0,437.0,465.0,493.0
+    };
+    mavlink_magothy_3d_mag_cal_params_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        packet1.uncalibrated_norm_mean = packet_in.uncalibrated_norm_mean;
+        packet1.uncalibrated_norm_std_dev = packet_in.uncalibrated_norm_std_dev;
+        packet1.uncalibrated_norm_max_error = packet_in.uncalibrated_norm_max_error;
+        packet1.calibrated_norm_mean = packet_in.calibrated_norm_mean;
+        packet1.calibrated_norm_std_dev = packet_in.calibrated_norm_std_dev;
+        packet1.calibrated_norm_max_error = packet_in.calibrated_norm_max_error;
+        
+        mav_array_memcpy(packet1.hard_iron, packet_in.hard_iron, sizeof(float)*3);
+        mav_array_memcpy(packet1.soft_iron, packet_in.soft_iron, sizeof(float)*9);
+        
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
+           // cope with extensions
+           memset(MAVLINK_MSG_ID_MAGOTHY_3D_MAG_CAL_PARAMS_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_MAGOTHY_3D_MAG_CAL_PARAMS_MIN_LEN);
+        }
+#endif
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_magothy_3d_mag_cal_params_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_magothy_3d_mag_cal_params_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_magothy_3d_mag_cal_params_pack(system_id, component_id, &msg , packet1.hard_iron , packet1.soft_iron , packet1.uncalibrated_norm_mean , packet1.uncalibrated_norm_std_dev , packet1.uncalibrated_norm_max_error , packet1.calibrated_norm_mean , packet1.calibrated_norm_std_dev , packet1.calibrated_norm_max_error );
+    mavlink_msg_magothy_3d_mag_cal_params_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_magothy_3d_mag_cal_params_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.hard_iron , packet1.soft_iron , packet1.uncalibrated_norm_mean , packet1.uncalibrated_norm_std_dev , packet1.uncalibrated_norm_max_error , packet1.calibrated_norm_mean , packet1.calibrated_norm_std_dev , packet1.calibrated_norm_max_error );
+    mavlink_msg_magothy_3d_mag_cal_params_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+    mavlink_msg_magothy_3d_mag_cal_params_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_magothy_3d_mag_cal_params_send(MAVLINK_COMM_1 , packet1.hard_iron , packet1.soft_iron , packet1.uncalibrated_norm_mean , packet1.uncalibrated_norm_std_dev , packet1.uncalibrated_norm_max_error , packet1.calibrated_norm_mean , packet1.calibrated_norm_std_dev , packet1.calibrated_norm_max_error );
+    mavlink_msg_magothy_3d_mag_cal_params_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
 static void mavlink_test_magothy(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
     mavlink_test_magothy_echosounder(system_id, component_id, last_msg);
     mavlink_test_magothy_mission_telemetry(system_id, component_id, last_msg);
     mavlink_test_magothy_water_current(system_id, component_id, last_msg);
     mavlink_test_magothy_capability(system_id, component_id, last_msg);
+    mavlink_test_magothy_3d_mag_cal_params(system_id, component_id, last_msg);
 }
 
 #ifdef __cplusplus
