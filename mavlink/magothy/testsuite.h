@@ -1,6 +1,6 @@
 /** @file
  *    @brief MAVLink comm protocol testsuite generated from magothy.xml
- *    @see http://qgroundcontrol.org/mavlink/
+ *    @see https://mavlink.io/en/
  */
 #pragma once
 #ifndef MAGOTHY_TESTSUITE_H
@@ -80,6 +80,11 @@ static void mavlink_test_magothy_echosounder(uint8_t system_id, uint8_t componen
     mavlink_msg_magothy_echosounder_send(MAVLINK_COMM_1 , packet1.time_usec , packet1.water_depth_low_freq_m , packet1.water_depth_high_freq_m , packet1.water_temperature_C );
     mavlink_msg_magothy_echosounder_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("MAGOTHY_ECHOSOUNDER") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_MAGOTHY_ECHOSOUNDER) != NULL);
+#endif
 }
 
 static void mavlink_test_magothy_mission_telemetry(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
@@ -142,6 +147,11 @@ static void mavlink_test_magothy_mission_telemetry(uint8_t system_id, uint8_t co
     mavlink_msg_magothy_mission_telemetry_send(MAVLINK_COMM_1 , packet1.unix_time_usec , packet1.uptime_msec , packet1.mission_item_time_elapsed_s , packet1.mission_item_time_remaining_s , packet1.mission_time_elapsed_s , packet1.mission_time_remaining_s , packet1.distance_to_target_m , packet1.cross_track_error_m , packet1.gcs_set_mode_uuid );
     mavlink_msg_magothy_mission_telemetry_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("MAGOTHY_MISSION_TELEMETRY") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_MAGOTHY_MISSION_TELEMETRY) != NULL);
+#endif
 }
 
 static void mavlink_test_magothy_water_current(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
@@ -199,6 +209,11 @@ static void mavlink_test_magothy_water_current(uint8_t system_id, uint8_t compon
     mavlink_msg_magothy_water_current_send(MAVLINK_COMM_1 , packet1.time_usec , packet1.water_current_speed_mps , packet1.water_current_direction_deg , packet1.water_current_age_s );
     mavlink_msg_magothy_water_current_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("MAGOTHY_WATER_CURRENT") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_MAGOTHY_WATER_CURRENT) != NULL);
+#endif
 }
 
 static void mavlink_test_magothy_capability(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
@@ -267,6 +282,11 @@ static void mavlink_test_magothy_capability(uint8_t system_id, uint8_t component
     mavlink_msg_magothy_capability_send(MAVLINK_COMM_1 , packet1.enablement_bitmask , packet1.spy_ip_address , packet1.spy_port , packet1.log_management_ip_address , packet1.log_management_port , packet1.log_management_endpoint , packet1.firmware_upload_ip_address , packet1.firmware_upload_port , packet1.firmware_upload_endpoint , packet1.firmware_sha1 , packet1.firmware_sha1_dirty , packet1.firmware_version , packet1.device_type , packet1.log_date_time , packet1.vehicle_name );
     mavlink_msg_magothy_capability_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("MAGOTHY_CAPABILITY") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_MAGOTHY_CAPABILITY) != NULL);
+#endif
 }
 
 static void mavlink_test_magothy_3d_mag_cal_params(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
@@ -328,6 +348,11 @@ static void mavlink_test_magothy_3d_mag_cal_params(uint8_t system_id, uint8_t co
     mavlink_msg_magothy_3d_mag_cal_params_send(MAVLINK_COMM_1 , packet1.hard_iron , packet1.soft_iron , packet1.uncalibrated_norm_mean , packet1.uncalibrated_norm_std_dev , packet1.uncalibrated_norm_max_error , packet1.calibrated_norm_mean , packet1.calibrated_norm_std_dev , packet1.calibrated_norm_max_error );
     mavlink_msg_magothy_3d_mag_cal_params_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("MAGOTHY_3D_MAG_CAL_PARAMS") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_MAGOTHY_3D_MAG_CAL_PARAMS) != NULL);
+#endif
 }
 
 static void mavlink_test_magothy(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
