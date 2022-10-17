@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_MAGOTHY.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_MAGOTHY_XML_HASH 7750695926556789707
+#define MAVLINK_MAGOTHY_XML_HASH 856649574188424138
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,7 +60,8 @@ typedef enum MAGOTHY_FAULT_RESPONSE
    MAGOTHY_FAULT_RESPONSE_FIRST=4, /* Travel to the mission's first waypoint | */
    MAGOTHY_FAULT_RESPONSE_FINAL=5, /* Travel to the mission's final waypoint | */
    MAGOTHY_FAULT_RESPONSE_LAUNCH=6, /* Travel to the mission's launch point | */
-   MAGOTHY_FAULT_RESPONSE_ENUM_END=7, /*  | */
+   MAGOTHY_FAULT_RESPONSE_CUSTOM=7, /* Perform fault response defined in vehicle configuration | */
+   MAGOTHY_FAULT_RESPONSE_ENUM_END=8, /*  | */
 } MAGOTHY_FAULT_RESPONSE;
 #endif
 
