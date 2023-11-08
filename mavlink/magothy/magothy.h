@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_MAGOTHY.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_MAGOTHY_XML_HASH -3261943193709440467
+#define MAVLINK_MAGOTHY_XML_HASH 7883118846086668978
 
 #ifdef __cplusplus
 extern "C" {
@@ -264,6 +264,7 @@ typedef enum MAV_CMD
                 Byte 0 - Longitudinal Enum: 0=null, 1=thrust, 2=speed
                 Byte 1 - Number of repetions| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_FILE_MISSION_COMMAND=50210, /* Immediately start a file based mission |Cast to nearest integer. Start mission with filename "mission{index}.yml"| Empty| Empty| Empty| Empty| Empty| UUID bytes 0-3 encoded in little-endian|  */
+   MAV_CMD_DO_SET_FILE_MISSION_COMMAND=50211, /* Save uploaded mission to disk for execution with MAV_CMD_DO_FILE_MISSION_COMMAND |Cast to nearest integer. Save uploaded mission to file "mission{index}.yml"| Empty| Empty| Empty| Empty| Empty| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_MAGOTHY_CUSTOM_0=50300, /* Immediately start a magothy custom 0 mission. This message will have vehicle specific meaning |Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Maximum command duration in seconds| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_MAGOTHY_CUSTOM_1=50301, /* Immediately start a magothy custom 1 mission. This message will have vehicle specific meaning |Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Maximum command duration in seconds| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_MAGOTHY_CUSTOM_2=50302, /* Immediately start a magothy custom 2 mission. This message will have vehicle specific meaning |Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Maximum command duration in seconds| UUID bytes 0-3 encoded in little-endian|  */
