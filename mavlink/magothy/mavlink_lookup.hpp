@@ -1095,7 +1095,6 @@ static const std::unordered_map<uint32_t, const char*> MAVLINK_MAGOTHY_LICENSE_T
     {0, "MAGOTHY_LICENSE_TRANSFER_TYPE_ACTIVATION"},
     {1, "MAGOTHY_LICENSE_TRANSFER_TYPE_LICENSE_FILE"},
     {2, "MAGOTHY_LICENSE_TRANSFER_TYPE_DEACTIVATION"},
-    {3, "MAGOTHY_LICENSE_TRANSFER_TYPE_DEACTIVATION_PERMISSION"},
 };
 
 inline const char* mavlink_magothy_license_transfer_type_str(uint32_t val) {

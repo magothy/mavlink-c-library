@@ -8,35 +8,39 @@ typedef struct __mavlink_magothy_license_info_t {
  uint8_t is_set; /*<  1 if license key is set, else 0*/
  uint8_t is_valid; /*<  1 if license key is valid, else 0*/
  char product_key[64]; /*<  license product_key - must be null terminated if length is less than 64*/
+ char description[64]; /*<  user provided description - must be null terminated if length is less than 64*/
 } mavlink_magothy_license_info_t;
 
-#define MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN 66
-#define MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN 66
-#define MAVLINK_MSG_ID_50150_LEN 66
-#define MAVLINK_MSG_ID_50150_MIN_LEN 66
+#define MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN 130
+#define MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN 130
+#define MAVLINK_MSG_ID_50150_LEN 130
+#define MAVLINK_MSG_ID_50150_MIN_LEN 130
 
-#define MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC 168
-#define MAVLINK_MSG_ID_50150_CRC 168
+#define MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC 221
+#define MAVLINK_MSG_ID_50150_CRC 221
 
 #define MAVLINK_MSG_MAGOTHY_LICENSE_INFO_FIELD_PRODUCT_KEY_LEN 64
+#define MAVLINK_MSG_MAGOTHY_LICENSE_INFO_FIELD_DESCRIPTION_LEN 64
 
 #if MAVLINK_COMMAND_24BIT
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_LICENSE_INFO { \
     50150, \
     "MAGOTHY_LICENSE_INFO", \
-    3, \
+    4, \
     {  { "is_set", NULL, MAVLINK_TYPE_UINT8_T, 0, 0, offsetof(mavlink_magothy_license_info_t, is_set) }, \
          { "is_valid", NULL, MAVLINK_TYPE_UINT8_T, 0, 1, offsetof(mavlink_magothy_license_info_t, is_valid) }, \
          { "product_key", NULL, MAVLINK_TYPE_CHAR, 64, 2, offsetof(mavlink_magothy_license_info_t, product_key) }, \
+         { "description", NULL, MAVLINK_TYPE_CHAR, 64, 66, offsetof(mavlink_magothy_license_info_t, description) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_LICENSE_INFO { \
     "MAGOTHY_LICENSE_INFO", \
-    3, \
+    4, \
     {  { "is_set", NULL, MAVLINK_TYPE_UINT8_T, 0, 0, offsetof(mavlink_magothy_license_info_t, is_set) }, \
          { "is_valid", NULL, MAVLINK_TYPE_UINT8_T, 0, 1, offsetof(mavlink_magothy_license_info_t, is_valid) }, \
          { "product_key", NULL, MAVLINK_TYPE_CHAR, 64, 2, offsetof(mavlink_magothy_license_info_t, product_key) }, \
+         { "description", NULL, MAVLINK_TYPE_CHAR, 64, 66, offsetof(mavlink_magothy_license_info_t, description) }, \
          } \
 }
 #endif
@@ -50,22 +54,25 @@ typedef struct __mavlink_magothy_license_info_t {
  * @param is_set  1 if license key is set, else 0
  * @param is_valid  1 if license key is valid, else 0
  * @param product_key  license product_key - must be null terminated if length is less than 64
+ * @param description  user provided description - must be null terminated if length is less than 64
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_license_info_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               uint8_t is_set, uint8_t is_valid, const char *product_key)
+                               uint8_t is_set, uint8_t is_valid, const char *product_key, const char *description)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN];
     _mav_put_uint8_t(buf, 0, is_set);
     _mav_put_uint8_t(buf, 1, is_valid);
     _mav_put_char_array(buf, 2, product_key, 64);
+    _mav_put_char_array(buf, 66, description, 64);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN);
 #else
     mavlink_magothy_license_info_t packet;
     packet.is_set = is_set;
     packet.is_valid = is_valid;
     mav_array_memcpy(packet.product_key, product_key, sizeof(char)*64);
+    mav_array_memcpy(packet.description, description, sizeof(char)*64);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN);
 #endif
 
@@ -82,23 +89,26 @@ static inline uint16_t mavlink_msg_magothy_license_info_pack(uint8_t system_id, 
  * @param is_set  1 if license key is set, else 0
  * @param is_valid  1 if license key is valid, else 0
  * @param product_key  license product_key - must be null terminated if length is less than 64
+ * @param description  user provided description - must be null terminated if length is less than 64
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_license_info_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   uint8_t is_set,uint8_t is_valid,const char *product_key)
+                                   uint8_t is_set,uint8_t is_valid,const char *product_key,const char *description)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN];
     _mav_put_uint8_t(buf, 0, is_set);
     _mav_put_uint8_t(buf, 1, is_valid);
     _mav_put_char_array(buf, 2, product_key, 64);
+    _mav_put_char_array(buf, 66, description, 64);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN);
 #else
     mavlink_magothy_license_info_t packet;
     packet.is_set = is_set;
     packet.is_valid = is_valid;
     mav_array_memcpy(packet.product_key, product_key, sizeof(char)*64);
+    mav_array_memcpy(packet.description, description, sizeof(char)*64);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN);
 #endif
 
@@ -116,7 +126,7 @@ static inline uint16_t mavlink_msg_magothy_license_info_pack_chan(uint8_t system
  */
 static inline uint16_t mavlink_msg_magothy_license_info_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_magothy_license_info_t* magothy_license_info)
 {
-    return mavlink_msg_magothy_license_info_pack(system_id, component_id, msg, magothy_license_info->is_set, magothy_license_info->is_valid, magothy_license_info->product_key);
+    return mavlink_msg_magothy_license_info_pack(system_id, component_id, msg, magothy_license_info->is_set, magothy_license_info->is_valid, magothy_license_info->product_key, magothy_license_info->description);
 }
 
 /**
@@ -130,7 +140,7 @@ static inline uint16_t mavlink_msg_magothy_license_info_encode(uint8_t system_id
  */
 static inline uint16_t mavlink_msg_magothy_license_info_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_magothy_license_info_t* magothy_license_info)
 {
-    return mavlink_msg_magothy_license_info_pack_chan(system_id, component_id, chan, msg, magothy_license_info->is_set, magothy_license_info->is_valid, magothy_license_info->product_key);
+    return mavlink_msg_magothy_license_info_pack_chan(system_id, component_id, chan, msg, magothy_license_info->is_set, magothy_license_info->is_valid, magothy_license_info->product_key, magothy_license_info->description);
 }
 
 /**
@@ -140,22 +150,25 @@ static inline uint16_t mavlink_msg_magothy_license_info_encode_chan(uint8_t syst
  * @param is_set  1 if license key is set, else 0
  * @param is_valid  1 if license key is valid, else 0
  * @param product_key  license product_key - must be null terminated if length is less than 64
+ * @param description  user provided description - must be null terminated if length is less than 64
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_magothy_license_info_send(mavlink_channel_t chan, uint8_t is_set, uint8_t is_valid, const char *product_key)
+static inline void mavlink_msg_magothy_license_info_send(mavlink_channel_t chan, uint8_t is_set, uint8_t is_valid, const char *product_key, const char *description)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN];
     _mav_put_uint8_t(buf, 0, is_set);
     _mav_put_uint8_t(buf, 1, is_valid);
     _mav_put_char_array(buf, 2, product_key, 64);
+    _mav_put_char_array(buf, 66, description, 64);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO, buf, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC);
 #else
     mavlink_magothy_license_info_t packet;
     packet.is_set = is_set;
     packet.is_valid = is_valid;
     mav_array_memcpy(packet.product_key, product_key, sizeof(char)*64);
+    mav_array_memcpy(packet.description, description, sizeof(char)*64);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO, (const char *)&packet, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC);
 #endif
 }
@@ -168,7 +181,7 @@ static inline void mavlink_msg_magothy_license_info_send(mavlink_channel_t chan,
 static inline void mavlink_msg_magothy_license_info_send_struct(mavlink_channel_t chan, const mavlink_magothy_license_info_t* magothy_license_info)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_magothy_license_info_send(chan, magothy_license_info->is_set, magothy_license_info->is_valid, magothy_license_info->product_key);
+    mavlink_msg_magothy_license_info_send(chan, magothy_license_info->is_set, magothy_license_info->is_valid, magothy_license_info->product_key, magothy_license_info->description);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO, (const char *)magothy_license_info, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC);
 #endif
@@ -182,19 +195,21 @@ static inline void mavlink_msg_magothy_license_info_send_struct(mavlink_channel_
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_magothy_license_info_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t is_set, uint8_t is_valid, const char *product_key)
+static inline void mavlink_msg_magothy_license_info_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t is_set, uint8_t is_valid, const char *product_key, const char *description)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
     _mav_put_uint8_t(buf, 0, is_set);
     _mav_put_uint8_t(buf, 1, is_valid);
     _mav_put_char_array(buf, 2, product_key, 64);
+    _mav_put_char_array(buf, 66, description, 64);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO, buf, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC);
 #else
     mavlink_magothy_license_info_t *packet = (mavlink_magothy_license_info_t *)msgbuf;
     packet->is_set = is_set;
     packet->is_valid = is_valid;
     mav_array_memcpy(packet->product_key, product_key, sizeof(char)*64);
+    mav_array_memcpy(packet->description, description, sizeof(char)*64);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO, (const char *)packet, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_CRC);
 #endif
 }
@@ -236,6 +251,16 @@ static inline uint16_t mavlink_msg_magothy_license_info_get_product_key(const ma
 }
 
 /**
+ * @brief Get field description from magothy_license_info message
+ *
+ * @return  user provided description - must be null terminated if length is less than 64
+ */
+static inline uint16_t mavlink_msg_magothy_license_info_get_description(const mavlink_message_t* msg, char *description)
+{
+    return _MAV_RETURN_char_array(msg, description, 64,  66);
+}
+
+/**
  * @brief Decode a magothy_license_info message into a struct
  *
  * @param msg The message to decode
@@ -247,6 +272,7 @@ static inline void mavlink_msg_magothy_license_info_decode(const mavlink_message
     magothy_license_info->is_set = mavlink_msg_magothy_license_info_get_is_set(msg);
     magothy_license_info->is_valid = mavlink_msg_magothy_license_info_get_is_valid(msg);
     mavlink_msg_magothy_license_info_get_product_key(msg, magothy_license_info->product_key);
+    mavlink_msg_magothy_license_info_get_description(msg, magothy_license_info->description);
 #else
         uint8_t len = msg->len < MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN? msg->len : MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN;
         memset(magothy_license_info, 0, MAVLINK_MSG_ID_MAGOTHY_LICENSE_INFO_LEN);

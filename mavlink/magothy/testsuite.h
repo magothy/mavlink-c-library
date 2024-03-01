@@ -444,7 +444,7 @@ static void mavlink_test_magothy_license_info(uint8_t system_id, uint8_t compone
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_magothy_license_info_t packet_in = {
-        5,72,"CDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLM"
+        5,72,"CDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLM","OPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXY"
     };
     mavlink_magothy_license_info_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
@@ -452,6 +452,7 @@ static void mavlink_test_magothy_license_info(uint8_t system_id, uint8_t compone
         packet1.is_valid = packet_in.is_valid;
         
         mav_array_memcpy(packet1.product_key, packet_in.product_key, sizeof(char)*64);
+        mav_array_memcpy(packet1.description, packet_in.description, sizeof(char)*64);
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
@@ -465,12 +466,12 @@ static void mavlink_test_magothy_license_info(uint8_t system_id, uint8_t compone
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_license_info_pack(system_id, component_id, &msg , packet1.is_set , packet1.is_valid , packet1.product_key );
+    mavlink_msg_magothy_license_info_pack(system_id, component_id, &msg , packet1.is_set , packet1.is_valid , packet1.product_key , packet1.description );
     mavlink_msg_magothy_license_info_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_license_info_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.is_set , packet1.is_valid , packet1.product_key );
+    mavlink_msg_magothy_license_info_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.is_set , packet1.is_valid , packet1.product_key , packet1.description );
     mavlink_msg_magothy_license_info_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -483,7 +484,7 @@ static void mavlink_test_magothy_license_info(uint8_t system_id, uint8_t compone
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_license_info_send(MAVLINK_COMM_1 , packet1.is_set , packet1.is_valid , packet1.product_key );
+    mavlink_msg_magothy_license_info_send(MAVLINK_COMM_1 , packet1.is_set , packet1.is_valid , packet1.product_key , packet1.description );
     mavlink_msg_magothy_license_info_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -505,7 +506,7 @@ static void mavlink_test_magothy_license_transfer_initialize(uint8_t system_id, 
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_magothy_license_transfer_initialize_t packet_in = {
-        5,72,"CDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLM"
+        5,72,"CDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLM","OPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXY"
     };
     mavlink_magothy_license_transfer_initialize_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
@@ -513,6 +514,7 @@ static void mavlink_test_magothy_license_transfer_initialize(uint8_t system_id, 
         packet1.transfer_type = packet_in.transfer_type;
         
         mav_array_memcpy(packet1.product_key, packet_in.product_key, sizeof(char)*64);
+        mav_array_memcpy(packet1.description, packet_in.description, sizeof(char)*64);
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
@@ -526,12 +528,12 @@ static void mavlink_test_magothy_license_transfer_initialize(uint8_t system_id, 
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_license_transfer_initialize_pack(system_id, component_id, &msg , packet1.target_system , packet1.transfer_type , packet1.product_key );
+    mavlink_msg_magothy_license_transfer_initialize_pack(system_id, component_id, &msg , packet1.target_system , packet1.transfer_type , packet1.product_key , packet1.description );
     mavlink_msg_magothy_license_transfer_initialize_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_license_transfer_initialize_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.transfer_type , packet1.product_key );
+    mavlink_msg_magothy_license_transfer_initialize_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.target_system , packet1.transfer_type , packet1.product_key , packet1.description );
     mavlink_msg_magothy_license_transfer_initialize_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -544,7 +546,7 @@ static void mavlink_test_magothy_license_transfer_initialize(uint8_t system_id, 
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_license_transfer_initialize_send(MAVLINK_COMM_1 , packet1.target_system , packet1.transfer_type , packet1.product_key );
+    mavlink_msg_magothy_license_transfer_initialize_send(MAVLINK_COMM_1 , packet1.target_system , packet1.transfer_type , packet1.product_key , packet1.description );
     mavlink_msg_magothy_license_transfer_initialize_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
