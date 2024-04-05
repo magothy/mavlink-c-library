@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_MAGOTHY.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_MAGOTHY_XML_HASH 4269031905650813629
+#define MAVLINK_MAGOTHY_XML_HASH 2329786974617211566
 
 #ifdef __cplusplus
 extern "C" {
@@ -264,7 +264,8 @@ typedef enum MAV_CMD
                 Byte 1 - Number of repetions| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_FILE_MISSION_COMMAND=50210, /* Immediately start a file based mission |Cast to nearest integer. Start mission with filename mission{index}.yml| Empty| Empty| Empty| Empty| Empty| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_SET_FILE_MISSION_COMMAND=50211, /* Save uploaded mission to disk for execution with MAV_CMD_DO_FILE_MISSION_COMMAND |Cast to nearest integer. Save uploaded mission to file mission{index}.yml| Empty| Empty| Empty| Empty| Empty| UUID bytes 0-3 encoded in little-endian|  */
-   MAV_CMD_DO_MILLING=50212, /* Immediately start a magothy custom 2 mission. This message will have vehicle specific meaning |Maximum mission duration in seconds| Vehicle speed in m/s| Index (0-based) of fence item (must be keep-in) corresponding to milling area.| Empty| Latitude| Longitude| Altitude|  */
+   MAV_CMD_DO_MILLING=50212, /* Instruct the vehicle to randomly traverse the specified area. Shape my be circle or polygon |Maximum mission duration in seconds| Vehicle speed in m/s| NaN: shape is a polygon. Finite: shape is a circle - radius in meters| Each polygon definition should have a randomly generated UID. Used to associate vertices with polygon| Latitude, only meaningful if shape is circle| Longitude, only meaningful if shape is circle| Altitude|  */
+   MAV_CMD_DO_SET_MILLING_POLYGON_VERTEX=50213, /* Defines a vertex for a milling polygon. For a given polygon, all vertices should be sent monotonically increasing immediately preceding the corresponding MAV_CMD_DO_MILLING message. MAV_CMD_DO_SET_MILLING_POLYGON_VERTEX must only be sent if the corresponding MAV_CMD_DO_MILLING shape is polygon |Index (0-based) of vertex| Total number of polygon vertices. Should be an "open" polygon - last vertex should be distinct from first| Empty| Each polygon definition should have a randomly generated UID. Used to associate vertices with polygon| Latitude| Longitude| Empty|  */
    MAV_CMD_DO_MAGOTHY_CUSTOM_0=50300, /* Immediately start a magothy custom 0 mission. This message will have vehicle specific meaning |Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Maximum command duration in seconds| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_MAGOTHY_CUSTOM_1=50301, /* Immediately start a magothy custom 1 mission. This message will have vehicle specific meaning |Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Maximum command duration in seconds| UUID bytes 0-3 encoded in little-endian|  */
    MAV_CMD_DO_MAGOTHY_CUSTOM_2=50302, /* Immediately start a magothy custom 2 mission. This message will have vehicle specific meaning |Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Vehicle specific| Maximum command duration in seconds| UUID bytes 0-3 encoded in little-endian|  */
