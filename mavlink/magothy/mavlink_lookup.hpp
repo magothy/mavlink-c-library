@@ -253,6 +253,9 @@ static const std::unordered_map<uint32_t, const char*> MAVLINK_MSG_ID_LOOKUP = {
     {50153, "MAGOTHY_LICENSE_TRANSFER_REQUEST"},
     {50154, "MAGOTHY_LICENSE_TRANSFER"},
     {50155, "MAGOTHY_LICENSE_TRANSFER_ACK"},
+    {50250, "MAGOTHY_MISSION_REQUEST"},
+    {50251, "MAGOTHY_MISSION_TRANSFER"},
+    {50252, "MAGOTHY_MISSION_ACK"},
 };
 
 inline const char* mavlink_msg_id_str(uint32_t msg_id) {
