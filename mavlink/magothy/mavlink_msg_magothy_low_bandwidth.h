@@ -26,11 +26,13 @@ typedef struct __mavlink_magothy_low_bandwidth_t {
  uint8_t is_position_independent; /*<  1 if position measurement is independent (gps), else 0*/
  uint32_t gcs_set_mode_uuid_lsb; /*<  UUID of most recent mode change*/
  uint16_t mission_crc; /*<  CRC-16/CCITT-FALSE of serialized loaded mission*/
+ float altitude; /*< [m] Altitude - NaN for unset. On USV: altimeter reading. On arial drone: MSL*/
+ float depth; /*< [m] Depth - NaN for unset. Depth below waterline*/
 }) mavlink_magothy_low_bandwidth_t;
 
-#define MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN 52
+#define MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN 60
 #define MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_MIN_LEN 46
-#define MAVLINK_MSG_ID_50004_LEN 52
+#define MAVLINK_MSG_ID_50004_LEN 60
 #define MAVLINK_MSG_ID_50004_MIN_LEN 46
 
 #define MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_CRC 243
@@ -42,7 +44,7 @@ typedef struct __mavlink_magothy_low_bandwidth_t {
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_LOW_BANDWIDTH { \
     50004, \
     "MAGOTHY_LOW_BANDWIDTH", \
-    21, \
+    23, \
     {  { "type", NULL, MAVLINK_TYPE_UINT8_T, 0, 42, offsetof(mavlink_magothy_low_bandwidth_t, type) }, \
          { "custom_mode", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_magothy_low_bandwidth_t, custom_mode) }, \
          { "onboard_control_sensors_present", "0x%04x", MAVLINK_TYPE_UINT32_T, 0, 4, offsetof(mavlink_magothy_low_bandwidth_t, onboard_control_sensors_present) }, \
@@ -64,12 +66,14 @@ typedef struct __mavlink_magothy_low_bandwidth_t {
          { "desired_course", NULL, MAVLINK_TYPE_UINT16_T, 0, 40, offsetof(mavlink_magothy_low_bandwidth_t, desired_course) }, \
          { "gcs_set_mode_uuid_lsb", NULL, MAVLINK_TYPE_UINT32_T, 0, 46, offsetof(mavlink_magothy_low_bandwidth_t, gcs_set_mode_uuid_lsb) }, \
          { "mission_crc", NULL, MAVLINK_TYPE_UINT16_T, 0, 50, offsetof(mavlink_magothy_low_bandwidth_t, mission_crc) }, \
+         { "altitude", NULL, MAVLINK_TYPE_FLOAT, 0, 52, offsetof(mavlink_magothy_low_bandwidth_t, altitude) }, \
+         { "depth", NULL, MAVLINK_TYPE_FLOAT, 0, 56, offsetof(mavlink_magothy_low_bandwidth_t, depth) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_MAGOTHY_LOW_BANDWIDTH { \
     "MAGOTHY_LOW_BANDWIDTH", \
-    21, \
+    23, \
     {  { "type", NULL, MAVLINK_TYPE_UINT8_T, 0, 42, offsetof(mavlink_magothy_low_bandwidth_t, type) }, \
          { "custom_mode", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_magothy_low_bandwidth_t, custom_mode) }, \
          { "onboard_control_sensors_present", "0x%04x", MAVLINK_TYPE_UINT32_T, 0, 4, offsetof(mavlink_magothy_low_bandwidth_t, onboard_control_sensors_present) }, \
@@ -91,6 +95,8 @@ typedef struct __mavlink_magothy_low_bandwidth_t {
          { "desired_course", NULL, MAVLINK_TYPE_UINT16_T, 0, 40, offsetof(mavlink_magothy_low_bandwidth_t, desired_course) }, \
          { "gcs_set_mode_uuid_lsb", NULL, MAVLINK_TYPE_UINT32_T, 0, 46, offsetof(mavlink_magothy_low_bandwidth_t, gcs_set_mode_uuid_lsb) }, \
          { "mission_crc", NULL, MAVLINK_TYPE_UINT16_T, 0, 50, offsetof(mavlink_magothy_low_bandwidth_t, mission_crc) }, \
+         { "altitude", NULL, MAVLINK_TYPE_FLOAT, 0, 52, offsetof(mavlink_magothy_low_bandwidth_t, altitude) }, \
+         { "depth", NULL, MAVLINK_TYPE_FLOAT, 0, 56, offsetof(mavlink_magothy_low_bandwidth_t, depth) }, \
          } \
 }
 #endif
@@ -122,10 +128,12 @@ typedef struct __mavlink_magothy_low_bandwidth_t {
  * @param desired_course [cdeg] Desired course over ground in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
  * @param gcs_set_mode_uuid_lsb  UUID of most recent mode change
  * @param mission_crc  CRC-16/CCITT-FALSE of serialized loaded mission
+ * @param altitude [m] Altitude - NaN for unset. On USV: altimeter reading. On arial drone: MSL
+ * @param depth [m] Depth - NaN for unset. Depth below waterline
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               uint8_t type, uint32_t custom_mode, uint32_t onboard_control_sensors_present, uint32_t onboard_control_sensors_enabled, uint32_t onboard_control_sensors_health, uint16_t voltage_battery, int16_t current_battery, int8_t battery_remaining, uint16_t mission_seq, int32_t lat, int32_t lon, uint16_t speed, uint16_t course, uint8_t satellites_visible, uint16_t heading, uint8_t is_position_independent, uint16_t position_error, uint16_t desired_speed, uint16_t desired_course, uint32_t gcs_set_mode_uuid_lsb, uint16_t mission_crc)
+                               uint8_t type, uint32_t custom_mode, uint32_t onboard_control_sensors_present, uint32_t onboard_control_sensors_enabled, uint32_t onboard_control_sensors_health, uint16_t voltage_battery, int16_t current_battery, int8_t battery_remaining, uint16_t mission_seq, int32_t lat, int32_t lon, uint16_t speed, uint16_t course, uint8_t satellites_visible, uint16_t heading, uint8_t is_position_independent, uint16_t position_error, uint16_t desired_speed, uint16_t desired_course, uint32_t gcs_set_mode_uuid_lsb, uint16_t mission_crc, float altitude, float depth)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN];
@@ -150,6 +158,8 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack(uint8_t system_id,
     _mav_put_uint8_t(buf, 45, is_position_independent);
     _mav_put_uint32_t(buf, 46, gcs_set_mode_uuid_lsb);
     _mav_put_uint16_t(buf, 50, mission_crc);
+    _mav_put_float(buf, 52, altitude);
+    _mav_put_float(buf, 56, depth);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN);
 #else
@@ -175,6 +185,8 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack(uint8_t system_id,
     packet.is_position_independent = is_position_independent;
     packet.gcs_set_mode_uuid_lsb = gcs_set_mode_uuid_lsb;
     packet.mission_crc = mission_crc;
+    packet.altitude = altitude;
+    packet.depth = depth;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN);
 #endif
@@ -210,11 +222,13 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack(uint8_t system_id,
  * @param desired_course [cdeg] Desired course over ground in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
  * @param gcs_set_mode_uuid_lsb  UUID of most recent mode change
  * @param mission_crc  CRC-16/CCITT-FALSE of serialized loaded mission
+ * @param altitude [m] Altitude - NaN for unset. On USV: altimeter reading. On arial drone: MSL
+ * @param depth [m] Depth - NaN for unset. Depth below waterline
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   uint8_t type,uint32_t custom_mode,uint32_t onboard_control_sensors_present,uint32_t onboard_control_sensors_enabled,uint32_t onboard_control_sensors_health,uint16_t voltage_battery,int16_t current_battery,int8_t battery_remaining,uint16_t mission_seq,int32_t lat,int32_t lon,uint16_t speed,uint16_t course,uint8_t satellites_visible,uint16_t heading,uint8_t is_position_independent,uint16_t position_error,uint16_t desired_speed,uint16_t desired_course,uint32_t gcs_set_mode_uuid_lsb,uint16_t mission_crc)
+                                   uint8_t type,uint32_t custom_mode,uint32_t onboard_control_sensors_present,uint32_t onboard_control_sensors_enabled,uint32_t onboard_control_sensors_health,uint16_t voltage_battery,int16_t current_battery,int8_t battery_remaining,uint16_t mission_seq,int32_t lat,int32_t lon,uint16_t speed,uint16_t course,uint8_t satellites_visible,uint16_t heading,uint8_t is_position_independent,uint16_t position_error,uint16_t desired_speed,uint16_t desired_course,uint32_t gcs_set_mode_uuid_lsb,uint16_t mission_crc,float altitude,float depth)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN];
@@ -239,6 +253,8 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack_chan(uint8_t syste
     _mav_put_uint8_t(buf, 45, is_position_independent);
     _mav_put_uint32_t(buf, 46, gcs_set_mode_uuid_lsb);
     _mav_put_uint16_t(buf, 50, mission_crc);
+    _mav_put_float(buf, 52, altitude);
+    _mav_put_float(buf, 56, depth);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN);
 #else
@@ -264,6 +280,8 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack_chan(uint8_t syste
     packet.is_position_independent = is_position_independent;
     packet.gcs_set_mode_uuid_lsb = gcs_set_mode_uuid_lsb;
     packet.mission_crc = mission_crc;
+    packet.altitude = altitude;
+    packet.depth = depth;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN);
 #endif
@@ -282,7 +300,7 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_pack_chan(uint8_t syste
  */
 static inline uint16_t mavlink_msg_magothy_low_bandwidth_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_magothy_low_bandwidth_t* magothy_low_bandwidth)
 {
-    return mavlink_msg_magothy_low_bandwidth_pack(system_id, component_id, msg, magothy_low_bandwidth->type, magothy_low_bandwidth->custom_mode, magothy_low_bandwidth->onboard_control_sensors_present, magothy_low_bandwidth->onboard_control_sensors_enabled, magothy_low_bandwidth->onboard_control_sensors_health, magothy_low_bandwidth->voltage_battery, magothy_low_bandwidth->current_battery, magothy_low_bandwidth->battery_remaining, magothy_low_bandwidth->mission_seq, magothy_low_bandwidth->lat, magothy_low_bandwidth->lon, magothy_low_bandwidth->speed, magothy_low_bandwidth->course, magothy_low_bandwidth->satellites_visible, magothy_low_bandwidth->heading, magothy_low_bandwidth->is_position_independent, magothy_low_bandwidth->position_error, magothy_low_bandwidth->desired_speed, magothy_low_bandwidth->desired_course, magothy_low_bandwidth->gcs_set_mode_uuid_lsb, magothy_low_bandwidth->mission_crc);
+    return mavlink_msg_magothy_low_bandwidth_pack(system_id, component_id, msg, magothy_low_bandwidth->type, magothy_low_bandwidth->custom_mode, magothy_low_bandwidth->onboard_control_sensors_present, magothy_low_bandwidth->onboard_control_sensors_enabled, magothy_low_bandwidth->onboard_control_sensors_health, magothy_low_bandwidth->voltage_battery, magothy_low_bandwidth->current_battery, magothy_low_bandwidth->battery_remaining, magothy_low_bandwidth->mission_seq, magothy_low_bandwidth->lat, magothy_low_bandwidth->lon, magothy_low_bandwidth->speed, magothy_low_bandwidth->course, magothy_low_bandwidth->satellites_visible, magothy_low_bandwidth->heading, magothy_low_bandwidth->is_position_independent, magothy_low_bandwidth->position_error, magothy_low_bandwidth->desired_speed, magothy_low_bandwidth->desired_course, magothy_low_bandwidth->gcs_set_mode_uuid_lsb, magothy_low_bandwidth->mission_crc, magothy_low_bandwidth->altitude, magothy_low_bandwidth->depth);
 }
 
 /**
@@ -296,7 +314,7 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_encode(uint8_t system_i
  */
 static inline uint16_t mavlink_msg_magothy_low_bandwidth_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_magothy_low_bandwidth_t* magothy_low_bandwidth)
 {
-    return mavlink_msg_magothy_low_bandwidth_pack_chan(system_id, component_id, chan, msg, magothy_low_bandwidth->type, magothy_low_bandwidth->custom_mode, magothy_low_bandwidth->onboard_control_sensors_present, magothy_low_bandwidth->onboard_control_sensors_enabled, magothy_low_bandwidth->onboard_control_sensors_health, magothy_low_bandwidth->voltage_battery, magothy_low_bandwidth->current_battery, magothy_low_bandwidth->battery_remaining, magothy_low_bandwidth->mission_seq, magothy_low_bandwidth->lat, magothy_low_bandwidth->lon, magothy_low_bandwidth->speed, magothy_low_bandwidth->course, magothy_low_bandwidth->satellites_visible, magothy_low_bandwidth->heading, magothy_low_bandwidth->is_position_independent, magothy_low_bandwidth->position_error, magothy_low_bandwidth->desired_speed, magothy_low_bandwidth->desired_course, magothy_low_bandwidth->gcs_set_mode_uuid_lsb, magothy_low_bandwidth->mission_crc);
+    return mavlink_msg_magothy_low_bandwidth_pack_chan(system_id, component_id, chan, msg, magothy_low_bandwidth->type, magothy_low_bandwidth->custom_mode, magothy_low_bandwidth->onboard_control_sensors_present, magothy_low_bandwidth->onboard_control_sensors_enabled, magothy_low_bandwidth->onboard_control_sensors_health, magothy_low_bandwidth->voltage_battery, magothy_low_bandwidth->current_battery, magothy_low_bandwidth->battery_remaining, magothy_low_bandwidth->mission_seq, magothy_low_bandwidth->lat, magothy_low_bandwidth->lon, magothy_low_bandwidth->speed, magothy_low_bandwidth->course, magothy_low_bandwidth->satellites_visible, magothy_low_bandwidth->heading, magothy_low_bandwidth->is_position_independent, magothy_low_bandwidth->position_error, magothy_low_bandwidth->desired_speed, magothy_low_bandwidth->desired_course, magothy_low_bandwidth->gcs_set_mode_uuid_lsb, magothy_low_bandwidth->mission_crc, magothy_low_bandwidth->altitude, magothy_low_bandwidth->depth);
 }
 
 /**
@@ -324,10 +342,12 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_encode_chan(uint8_t sys
  * @param desired_course [cdeg] Desired course over ground in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
  * @param gcs_set_mode_uuid_lsb  UUID of most recent mode change
  * @param mission_crc  CRC-16/CCITT-FALSE of serialized loaded mission
+ * @param altitude [m] Altitude - NaN for unset. On USV: altimeter reading. On arial drone: MSL
+ * @param depth [m] Depth - NaN for unset. Depth below waterline
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_magothy_low_bandwidth_send(mavlink_channel_t chan, uint8_t type, uint32_t custom_mode, uint32_t onboard_control_sensors_present, uint32_t onboard_control_sensors_enabled, uint32_t onboard_control_sensors_health, uint16_t voltage_battery, int16_t current_battery, int8_t battery_remaining, uint16_t mission_seq, int32_t lat, int32_t lon, uint16_t speed, uint16_t course, uint8_t satellites_visible, uint16_t heading, uint8_t is_position_independent, uint16_t position_error, uint16_t desired_speed, uint16_t desired_course, uint32_t gcs_set_mode_uuid_lsb, uint16_t mission_crc)
+static inline void mavlink_msg_magothy_low_bandwidth_send(mavlink_channel_t chan, uint8_t type, uint32_t custom_mode, uint32_t onboard_control_sensors_present, uint32_t onboard_control_sensors_enabled, uint32_t onboard_control_sensors_health, uint16_t voltage_battery, int16_t current_battery, int8_t battery_remaining, uint16_t mission_seq, int32_t lat, int32_t lon, uint16_t speed, uint16_t course, uint8_t satellites_visible, uint16_t heading, uint8_t is_position_independent, uint16_t position_error, uint16_t desired_speed, uint16_t desired_course, uint32_t gcs_set_mode_uuid_lsb, uint16_t mission_crc, float altitude, float depth)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN];
@@ -352,6 +372,8 @@ static inline void mavlink_msg_magothy_low_bandwidth_send(mavlink_channel_t chan
     _mav_put_uint8_t(buf, 45, is_position_independent);
     _mav_put_uint32_t(buf, 46, gcs_set_mode_uuid_lsb);
     _mav_put_uint16_t(buf, 50, mission_crc);
+    _mav_put_float(buf, 52, altitude);
+    _mav_put_float(buf, 56, depth);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH, buf, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_CRC);
 #else
@@ -377,6 +399,8 @@ static inline void mavlink_msg_magothy_low_bandwidth_send(mavlink_channel_t chan
     packet.is_position_independent = is_position_independent;
     packet.gcs_set_mode_uuid_lsb = gcs_set_mode_uuid_lsb;
     packet.mission_crc = mission_crc;
+    packet.altitude = altitude;
+    packet.depth = depth;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH, (const char *)&packet, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_CRC);
 #endif
@@ -390,7 +414,7 @@ static inline void mavlink_msg_magothy_low_bandwidth_send(mavlink_channel_t chan
 static inline void mavlink_msg_magothy_low_bandwidth_send_struct(mavlink_channel_t chan, const mavlink_magothy_low_bandwidth_t* magothy_low_bandwidth)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_magothy_low_bandwidth_send(chan, magothy_low_bandwidth->type, magothy_low_bandwidth->custom_mode, magothy_low_bandwidth->onboard_control_sensors_present, magothy_low_bandwidth->onboard_control_sensors_enabled, magothy_low_bandwidth->onboard_control_sensors_health, magothy_low_bandwidth->voltage_battery, magothy_low_bandwidth->current_battery, magothy_low_bandwidth->battery_remaining, magothy_low_bandwidth->mission_seq, magothy_low_bandwidth->lat, magothy_low_bandwidth->lon, magothy_low_bandwidth->speed, magothy_low_bandwidth->course, magothy_low_bandwidth->satellites_visible, magothy_low_bandwidth->heading, magothy_low_bandwidth->is_position_independent, magothy_low_bandwidth->position_error, magothy_low_bandwidth->desired_speed, magothy_low_bandwidth->desired_course, magothy_low_bandwidth->gcs_set_mode_uuid_lsb, magothy_low_bandwidth->mission_crc);
+    mavlink_msg_magothy_low_bandwidth_send(chan, magothy_low_bandwidth->type, magothy_low_bandwidth->custom_mode, magothy_low_bandwidth->onboard_control_sensors_present, magothy_low_bandwidth->onboard_control_sensors_enabled, magothy_low_bandwidth->onboard_control_sensors_health, magothy_low_bandwidth->voltage_battery, magothy_low_bandwidth->current_battery, magothy_low_bandwidth->battery_remaining, magothy_low_bandwidth->mission_seq, magothy_low_bandwidth->lat, magothy_low_bandwidth->lon, magothy_low_bandwidth->speed, magothy_low_bandwidth->course, magothy_low_bandwidth->satellites_visible, magothy_low_bandwidth->heading, magothy_low_bandwidth->is_position_independent, magothy_low_bandwidth->position_error, magothy_low_bandwidth->desired_speed, magothy_low_bandwidth->desired_course, magothy_low_bandwidth->gcs_set_mode_uuid_lsb, magothy_low_bandwidth->mission_crc, magothy_low_bandwidth->altitude, magothy_low_bandwidth->depth);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH, (const char *)magothy_low_bandwidth, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_CRC);
 #endif
@@ -404,7 +428,7 @@ static inline void mavlink_msg_magothy_low_bandwidth_send_struct(mavlink_channel
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_magothy_low_bandwidth_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t type, uint32_t custom_mode, uint32_t onboard_control_sensors_present, uint32_t onboard_control_sensors_enabled, uint32_t onboard_control_sensors_health, uint16_t voltage_battery, int16_t current_battery, int8_t battery_remaining, uint16_t mission_seq, int32_t lat, int32_t lon, uint16_t speed, uint16_t course, uint8_t satellites_visible, uint16_t heading, uint8_t is_position_independent, uint16_t position_error, uint16_t desired_speed, uint16_t desired_course, uint32_t gcs_set_mode_uuid_lsb, uint16_t mission_crc)
+static inline void mavlink_msg_magothy_low_bandwidth_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t type, uint32_t custom_mode, uint32_t onboard_control_sensors_present, uint32_t onboard_control_sensors_enabled, uint32_t onboard_control_sensors_health, uint16_t voltage_battery, int16_t current_battery, int8_t battery_remaining, uint16_t mission_seq, int32_t lat, int32_t lon, uint16_t speed, uint16_t course, uint8_t satellites_visible, uint16_t heading, uint8_t is_position_independent, uint16_t position_error, uint16_t desired_speed, uint16_t desired_course, uint32_t gcs_set_mode_uuid_lsb, uint16_t mission_crc, float altitude, float depth)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
@@ -429,6 +453,8 @@ static inline void mavlink_msg_magothy_low_bandwidth_send_buf(mavlink_message_t 
     _mav_put_uint8_t(buf, 45, is_position_independent);
     _mav_put_uint32_t(buf, 46, gcs_set_mode_uuid_lsb);
     _mav_put_uint16_t(buf, 50, mission_crc);
+    _mav_put_float(buf, 52, altitude);
+    _mav_put_float(buf, 56, depth);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH, buf, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_CRC);
 #else
@@ -454,6 +480,8 @@ static inline void mavlink_msg_magothy_low_bandwidth_send_buf(mavlink_message_t 
     packet->is_position_independent = is_position_independent;
     packet->gcs_set_mode_uuid_lsb = gcs_set_mode_uuid_lsb;
     packet->mission_crc = mission_crc;
+    packet->altitude = altitude;
+    packet->depth = depth;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH, (const char *)packet, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_MIN_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_CRC);
 #endif
@@ -676,6 +704,26 @@ static inline uint16_t mavlink_msg_magothy_low_bandwidth_get_mission_crc(const m
 }
 
 /**
+ * @brief Get field altitude from magothy_low_bandwidth message
+ *
+ * @return [m] Altitude - NaN for unset. On USV: altimeter reading. On arial drone: MSL
+ */
+static inline float mavlink_msg_magothy_low_bandwidth_get_altitude(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_float(msg,  52);
+}
+
+/**
+ * @brief Get field depth from magothy_low_bandwidth message
+ *
+ * @return [m] Depth - NaN for unset. Depth below waterline
+ */
+static inline float mavlink_msg_magothy_low_bandwidth_get_depth(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_float(msg,  56);
+}
+
+/**
  * @brief Decode a magothy_low_bandwidth message into a struct
  *
  * @param msg The message to decode
@@ -705,6 +753,8 @@ static inline void mavlink_msg_magothy_low_bandwidth_decode(const mavlink_messag
     magothy_low_bandwidth->is_position_independent = mavlink_msg_magothy_low_bandwidth_get_is_position_independent(msg);
     magothy_low_bandwidth->gcs_set_mode_uuid_lsb = mavlink_msg_magothy_low_bandwidth_get_gcs_set_mode_uuid_lsb(msg);
     magothy_low_bandwidth->mission_crc = mavlink_msg_magothy_low_bandwidth_get_mission_crc(msg);
+    magothy_low_bandwidth->altitude = mavlink_msg_magothy_low_bandwidth_get_altitude(msg);
+    magothy_low_bandwidth->depth = mavlink_msg_magothy_low_bandwidth_get_depth(msg);
 #else
         uint8_t len = msg->len < MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN? msg->len : MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN;
         memset(magothy_low_bandwidth, 0, MAVLINK_MSG_ID_MAGOTHY_LOW_BANDWIDTH_LEN);

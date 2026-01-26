@@ -367,7 +367,7 @@ static void mavlink_test_magothy_low_bandwidth(uint8_t system_id, uint8_t compon
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_magothy_low_bandwidth_t packet_in = {
-        963497464,963497672,963497880,963498088,963498296,963498504,18483,18587,18691,18795,18899,19003,19107,19211,19315,3,70,137,204,963499856,19835
+        963497464,963497672,963497880,963498088,963498296,963498504,18483,18587,18691,18795,18899,19003,19107,19211,19315,3,70,137,204,963499856,19835,381.0,409.0
     };
     mavlink_magothy_low_bandwidth_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
@@ -392,6 +392,8 @@ static void mavlink_test_magothy_low_bandwidth(uint8_t system_id, uint8_t compon
         packet1.is_position_independent = packet_in.is_position_independent;
         packet1.gcs_set_mode_uuid_lsb = packet_in.gcs_set_mode_uuid_lsb;
         packet1.mission_crc = packet_in.mission_crc;
+        packet1.altitude = packet_in.altitude;
+        packet1.depth = packet_in.depth;
         
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
@@ -406,12 +408,12 @@ static void mavlink_test_magothy_low_bandwidth(uint8_t system_id, uint8_t compon
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_low_bandwidth_pack(system_id, component_id, &msg , packet1.type , packet1.custom_mode , packet1.onboard_control_sensors_present , packet1.onboard_control_sensors_enabled , packet1.onboard_control_sensors_health , packet1.voltage_battery , packet1.current_battery , packet1.battery_remaining , packet1.mission_seq , packet1.lat , packet1.lon , packet1.speed , packet1.course , packet1.satellites_visible , packet1.heading , packet1.is_position_independent , packet1.position_error , packet1.desired_speed , packet1.desired_course , packet1.gcs_set_mode_uuid_lsb , packet1.mission_crc );
+    mavlink_msg_magothy_low_bandwidth_pack(system_id, component_id, &msg , packet1.type , packet1.custom_mode , packet1.onboard_control_sensors_present , packet1.onboard_control_sensors_enabled , packet1.onboard_control_sensors_health , packet1.voltage_battery , packet1.current_battery , packet1.battery_remaining , packet1.mission_seq , packet1.lat , packet1.lon , packet1.speed , packet1.course , packet1.satellites_visible , packet1.heading , packet1.is_position_independent , packet1.position_error , packet1.desired_speed , packet1.desired_course , packet1.gcs_set_mode_uuid_lsb , packet1.mission_crc , packet1.altitude , packet1.depth );
     mavlink_msg_magothy_low_bandwidth_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_low_bandwidth_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.type , packet1.custom_mode , packet1.onboard_control_sensors_present , packet1.onboard_control_sensors_enabled , packet1.onboard_control_sensors_health , packet1.voltage_battery , packet1.current_battery , packet1.battery_remaining , packet1.mission_seq , packet1.lat , packet1.lon , packet1.speed , packet1.course , packet1.satellites_visible , packet1.heading , packet1.is_position_independent , packet1.position_error , packet1.desired_speed , packet1.desired_course , packet1.gcs_set_mode_uuid_lsb , packet1.mission_crc );
+    mavlink_msg_magothy_low_bandwidth_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.type , packet1.custom_mode , packet1.onboard_control_sensors_present , packet1.onboard_control_sensors_enabled , packet1.onboard_control_sensors_health , packet1.voltage_battery , packet1.current_battery , packet1.battery_remaining , packet1.mission_seq , packet1.lat , packet1.lon , packet1.speed , packet1.course , packet1.satellites_visible , packet1.heading , packet1.is_position_independent , packet1.position_error , packet1.desired_speed , packet1.desired_course , packet1.gcs_set_mode_uuid_lsb , packet1.mission_crc , packet1.altitude , packet1.depth );
     mavlink_msg_magothy_low_bandwidth_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -424,7 +426,7 @@ static void mavlink_test_magothy_low_bandwidth(uint8_t system_id, uint8_t compon
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_low_bandwidth_send(MAVLINK_COMM_1 , packet1.type , packet1.custom_mode , packet1.onboard_control_sensors_present , packet1.onboard_control_sensors_enabled , packet1.onboard_control_sensors_health , packet1.voltage_battery , packet1.current_battery , packet1.battery_remaining , packet1.mission_seq , packet1.lat , packet1.lon , packet1.speed , packet1.course , packet1.satellites_visible , packet1.heading , packet1.is_position_independent , packet1.position_error , packet1.desired_speed , packet1.desired_course , packet1.gcs_set_mode_uuid_lsb , packet1.mission_crc );
+    mavlink_msg_magothy_low_bandwidth_send(MAVLINK_COMM_1 , packet1.type , packet1.custom_mode , packet1.onboard_control_sensors_present , packet1.onboard_control_sensors_enabled , packet1.onboard_control_sensors_health , packet1.voltage_battery , packet1.current_battery , packet1.battery_remaining , packet1.mission_seq , packet1.lat , packet1.lon , packet1.speed , packet1.course , packet1.satellites_visible , packet1.heading , packet1.is_position_independent , packet1.position_error , packet1.desired_speed , packet1.desired_course , packet1.gcs_set_mode_uuid_lsb , packet1.mission_crc , packet1.altitude , packet1.depth );
     mavlink_msg_magothy_low_bandwidth_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
