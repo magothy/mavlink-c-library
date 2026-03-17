@@ -1084,7 +1084,7 @@ static void mavlink_test_magothy_teleop_safety(uint8_t system_id, uint8_t compon
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_magothy_teleop_safety_t packet_in = {
-        17.0,17,84,151
+        17.0,17,84,151,66.0,94.0,122.0
     };
     mavlink_magothy_teleop_safety_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
@@ -1092,6 +1092,9 @@ static void mavlink_test_magothy_teleop_safety(uint8_t system_id, uint8_t compon
         packet1.is_enabled = packet_in.is_enabled;
         packet1.is_safe = packet_in.is_safe;
         packet1.is_safe_latched = packet_in.is_safe_latched;
+        packet1.min_safe_distance_m = packet_in.min_safe_distance_m;
+        packet1.field_of_view_deg = packet_in.field_of_view_deg;
+        packet1.bearing_to_obstacle_deg = packet_in.bearing_to_obstacle_deg;
         
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
@@ -1106,12 +1109,12 @@ static void mavlink_test_magothy_teleop_safety(uint8_t system_id, uint8_t compon
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_teleop_safety_pack(system_id, component_id, &msg , packet1.is_enabled , packet1.is_safe , packet1.is_safe_latched , packet1.distance_to_obstacle_m );
+    mavlink_msg_magothy_teleop_safety_pack(system_id, component_id, &msg , packet1.is_enabled , packet1.is_safe , packet1.is_safe_latched , packet1.distance_to_obstacle_m , packet1.min_safe_distance_m , packet1.field_of_view_deg , packet1.bearing_to_obstacle_deg );
     mavlink_msg_magothy_teleop_safety_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_teleop_safety_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.is_enabled , packet1.is_safe , packet1.is_safe_latched , packet1.distance_to_obstacle_m );
+    mavlink_msg_magothy_teleop_safety_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.is_enabled , packet1.is_safe , packet1.is_safe_latched , packet1.distance_to_obstacle_m , packet1.min_safe_distance_m , packet1.field_of_view_deg , packet1.bearing_to_obstacle_deg );
     mavlink_msg_magothy_teleop_safety_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -1124,7 +1127,7 @@ static void mavlink_test_magothy_teleop_safety(uint8_t system_id, uint8_t compon
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_magothy_teleop_safety_send(MAVLINK_COMM_1 , packet1.is_enabled , packet1.is_safe , packet1.is_safe_latched , packet1.distance_to_obstacle_m );
+    mavlink_msg_magothy_teleop_safety_send(MAVLINK_COMM_1 , packet1.is_enabled , packet1.is_safe , packet1.is_safe_latched , packet1.distance_to_obstacle_m , packet1.min_safe_distance_m , packet1.field_of_view_deg , packet1.bearing_to_obstacle_deg );
     mavlink_msg_magothy_teleop_safety_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
