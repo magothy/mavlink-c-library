@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_MAGOTHY.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_MAGOTHY_XML_HASH -6982539533098000493
+#define MAVLINK_MAGOTHY_XML_HASH -421744042845215865
 
 #ifdef __cplusplus
 extern "C" {
@@ -83,19 +83,18 @@ typedef enum MAGOTHY_LICENSE_TRANSFER_TYPE
 typedef enum MAGOTHY_GPS_SPOOFING
 {
    MAGOTHY_GPS_SPOOFING_ENABLED=1, /* Set if GPS spoofing detection is enabled | */
-   MAGOTHY_GPS_SPOOFING_DETECTED=2, /* Set if GPS spoofing is detected | */
-   MAGOTHY_GPS_SPOOFING_MITIGATION_ENABLED=4, /* Set if GPS spoofing mitigation is enabled | */
-   MAGOTHY_GPS_SPOOFING_MITIGATION_ACTIVE=8, /* Set if GPS spoofing mitigation is active | */
-   MAGOTHY_GPS_SPOOFING_EVALUATED=16, /* Set if GPS spoofing is evaluated | */
-   MAGOTHY_GPS_SPOOFING_EVALUATION_STATE=32, /* Set if GPS spoofing evaluation state is active | */
-   MAGOTHY_GPS_SPOOFING_GGA_FRESH=64, /* Set if GPS GGA data is fresh | */
-   MAGOTHY_GPS_SPOOFING_RMC_FRESH=128, /* Set if GPS RMC data is fresh | */
-   MAGOTHY_GPS_SPOOFING_GST_FRESH=256, /* Set if GPS GST data is fresh | */
-   MAGOTHY_GPS_SPOOFING_ATTITUDE_FRESH=512, /* Set if attitude data is fresh | */
-   MAGOTHY_GPS_SPOOFING_ACCELERATION_FRESH=1024, /* Set if acceleration data is fresh | */
-   MAGOTHY_GPS_SPOOFING_ANGULAR_RATE_FRESH=2048, /* Set if angular rate data is fresh | */
-   MAGOTHY_GPS_SPOOFING_SPEED_FRESH=4096, /* Set if speed data is fresh | */
-   MAGOTHY_GPS_SPOOFING_ENUM_END=4097, /*  | */
+   MAGOTHY_GPS_SPOOFING_EVALUATED=2, /* Set if GPS spoofing is evaluated | */
+   MAGOTHY_GPS_SPOOFING_DETECTED=4, /* Set if GPS spoofing is detected | */
+   MAGOTHY_GPS_SPOOFING_MITIGATION_ENABLED=8, /* Set if GPS spoofing mitigation is enabled | */
+   MAGOTHY_GPS_SPOOFING_MITIGATION_ACTIVE=16, /* Set if GPS spoofing mitigation is active | */
+   MAGOTHY_GPS_SPOOFING_GGA_FRESH=32, /* Set if GPS GGA data is fresh | */
+   MAGOTHY_GPS_SPOOFING_RMC_FRESH=64, /* Set if GPS RMC data is fresh | */
+   MAGOTHY_GPS_SPOOFING_GST_FRESH=128, /* Set if GPS GST data is fresh | */
+   MAGOTHY_GPS_SPOOFING_ATTITUDE_FRESH=256, /* Set if attitude data is fresh | */
+   MAGOTHY_GPS_SPOOFING_ACCELERATION_FRESH=512, /* Set if acceleration data is fresh | */
+   MAGOTHY_GPS_SPOOFING_ANGULAR_RATE_FRESH=1024, /* Set if angular rate data is fresh | */
+   MAGOTHY_GPS_SPOOFING_SPEED_FRESH=2048, /* Set if speed data is fresh | */
+   MAGOTHY_GPS_SPOOFING_ENUM_END=2049, /*  | */
 } MAGOTHY_GPS_SPOOFING;
 #endif
 
