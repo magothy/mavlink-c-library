@@ -1097,6 +1097,30 @@ inline std::string mavlink_magothy_fault_response_pretty(uint32_t val) {
     return mavlink_pretty(val, MAVLINK_MAGOTHY_FAULT_RESPONSE_LOOKUP);
 }
 
+static const std::unordered_map<uint32_t, const char*> MAVLINK_MAGOTHY_GPS_SPOOFING_LOOKUP = {
+    {1, "MAGOTHY_GPS_SPOOFING_ENABLED"},
+    {2, "MAGOTHY_GPS_SPOOFING_DETECTED"},
+    {4, "MAGOTHY_GPS_SPOOFING_MITIGATION_ENABLED"},
+    {8, "MAGOTHY_GPS_SPOOFING_MITIGATION_ACTIVE"},
+    {16, "MAGOTHY_GPS_SPOOFING_EVALUATED"},
+    {32, "MAGOTHY_GPS_SPOOFING_EVALUATION_STATE"},
+    {64, "MAGOTHY_GPS_SPOOFING_GGA_FRESH"},
+    {128, "MAGOTHY_GPS_SPOOFING_RMC_FRESH"},
+    {256, "MAGOTHY_GPS_SPOOFING_GST_FRESH"},
+    {512, "MAGOTHY_GPS_SPOOFING_ATTITUDE_FRESH"},
+    {1024, "MAGOTHY_GPS_SPOOFING_ACCELERATION_FRESH"},
+    {2048, "MAGOTHY_GPS_SPOOFING_ANGULAR_RATE_FRESH"},
+    {4096, "MAGOTHY_GPS_SPOOFING_SPEED_FRESH"},
+};
+
+inline const char* mavlink_magothy_gps_spoofing_str(uint32_t val) {
+    return mavlink_lookup(val, MAVLINK_MAGOTHY_GPS_SPOOFING_LOOKUP);
+}
+
+inline std::string mavlink_magothy_gps_spoofing_pretty(uint32_t val) {
+    return mavlink_pretty(val, MAVLINK_MAGOTHY_GPS_SPOOFING_LOOKUP);
+}
+
 static const std::unordered_map<uint32_t, const char*> MAVLINK_MAGOTHY_LICENSE_TRANSFER_TYPE_LOOKUP = {
     {0, "MAGOTHY_LICENSE_TRANSFER_TYPE_ACTIVATION"},
     {1, "MAGOTHY_LICENSE_TRANSFER_TYPE_LICENSE_FILE"},
